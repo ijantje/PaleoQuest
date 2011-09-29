@@ -1,3 +1,4 @@
+
 -- create object
 local myObject = display.newRect( 0, 0, 100, 100 )
 myObject:setFillColor( 255 )
@@ -19,6 +20,15 @@ function myObject:touch( event )
     
     return true
 end
+
+-- create object
+local circle = display.newCircle(50,50,50)
+circle:setFillColor(188,188,188)
+
+local myRoundedRect = display.newRoundedRect(display.contentWidth/2, display.contentHeight/2, 150, 150, 4)
+myRoundedRect.strokeWidth = 3
+myRoundedRect:setFillColor(0,0,0)
+myRoundedRect:setStrokeColor(180, 180, 180)
 
 -- make 'myObject' listen for touch events
 myObject:addEventListener( "touch", myObject )
