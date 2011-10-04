@@ -508,8 +508,8 @@
 <attribute name="IsPrototype" >false</attribute>
 <attribute name="Modified" >2011-09-01T09:31:00-06:00</attribute>
 <attribute name="Name" >workflow</attribute>
-<attribute name="ReadCount" >7</attribute>
-<attribute name="SelectionCount" >13</attribute>
+<attribute name="ReadCount" >8</attribute>
+<attribute name="SelectionCount" >15</attribute>
 <attribute name="Xpos" >0</attribute>
 <attribute name="Ypos" >0</attribute>
 </item>
@@ -520,7 +520,7 @@
 <attribute name="Modified" >2011-09-01T09:31:00-06:00</attribute>
 <attribute name="Name" >ideas</attribute>
 <attribute name="ReadCount" >3</attribute>
-<attribute name="SelectionCount" >11</attribute>
+<attribute name="SelectionCount" >12</attribute>
 <attribute name="Xpos" >3.5</attribute>
 <attribute name="Ypos" >0</attribute>
 <item ID="3397714264" Creator="system" >
@@ -528,7 +528,7 @@
 <attribute name="Modified" >2011-09-01T09:31:00-06:00</attribute>
 <attribute name="Name" >road rally</attribute>
 <attribute name="ReadCount" >6</attribute>
-<attribute name="SelectionCount" >7</attribute>
+<attribute name="SelectionCount" >8</attribute>
 <attribute name="Xpos" >0</attribute>
 <attribute name="Ypos" >0</attribute>
 </item>
@@ -538,7 +538,7 @@
 <attribute name="Modified" >2011-09-01T09:32:00-06:00</attribute>
 <attribute name="Name" >multiplayer</attribute>
 <attribute name="ReadCount" >10</attribute>
-<attribute name="SelectionCount" >8</attribute>
+<attribute name="SelectionCount" >9</attribute>
 <attribute name="Xpos" >3.5</attribute>
 <attribute name="Ypos" >0</attribute>
 </item>
@@ -548,7 +548,7 @@
 <attribute name="Modified" >2011-09-01T09:32:00-06:00</attribute>
 <attribute name="Name" >animated character person to be like</attribute>
 <attribute name="ReadCount" >10</attribute>
-<attribute name="SelectionCount" >8</attribute>
+<attribute name="SelectionCount" >9</attribute>
 <attribute name="Xpos" >7</attribute>
 <attribute name="Ypos" >0</attribute>
 </item>
@@ -557,8 +557,8 @@
 <attribute name="IsPrototype" >false</attribute>
 <attribute name="Modified" >2011-09-01T09:32:00-06:00</attribute>
 <attribute name="Name" >map of Thanksgiving point</attribute>
-<attribute name="ReadCount" >10</attribute>
-<attribute name="SelectionCount" >8</attribute>
+<attribute name="ReadCount" >12</attribute>
+<attribute name="SelectionCount" >12</attribute>
 <attribute name="Xpos" >10.5</attribute>
 <attribute name="Ypos" >0</attribute>
 </item>
@@ -568,7 +568,7 @@
 <attribute name="Modified" >2011-09-01T09:33:00-06:00</attribute>
 <attribute name="Name" >hot/cold game</attribute>
 <attribute name="ReadCount" >13</attribute>
-<attribute name="SelectionCount" >11</attribute>
+<attribute name="SelectionCount" >12</attribute>
 <attribute name="Xpos" >14</attribute>
 <attribute name="Ypos" >0</attribute>
 <text >use GPS to check where they&apos;re at and tell them how close/far they are to the clue.</text>
@@ -591,7 +591,7 @@
 <attribute name="Modified" >2011-09-01T09:33:00-06:00</attribute>
 <attribute name="Name" >matching</attribute>
 <attribute name="ReadCount" >14</attribute>
-<attribute name="SelectionCount" >11</attribute>
+<attribute name="SelectionCount" >12</attribute>
 <attribute name="Xpos" >17.5</attribute>
 <attribute name="Ypos" >0</attribute>
 <text >can use pictures, text, or dinosaur parts.</text>
@@ -614,7 +614,7 @@
 <attribute name="Modified" >2011-09-01T09:33:00-06:00</attribute>
 <attribute name="Name" >faded, on-screen picture</attribute>
 <attribute name="ReadCount" >11</attribute>
-<attribute name="SelectionCount" >9</attribute>
+<attribute name="SelectionCount" >10</attribute>
 <attribute name="Xpos" >21</attribute>
 <attribute name="Ypos" >0</attribute>
 </item>
@@ -624,7 +624,7 @@
 <attribute name="Modified" >2011-09-01T09:34:00-06:00</attribute>
 <attribute name="Name" >badges</attribute>
 <attribute name="ReadCount" >6</attribute>
-<attribute name="SelectionCount" >5</attribute>
+<attribute name="SelectionCount" >6</attribute>
 <attribute name="Xpos" >24.5</attribute>
 <attribute name="Ypos" >0</attribute>
 <text >can earn these to provide a varied experience each time the customer returns.</text>
@@ -647,7 +647,7 @@
 <attribute name="Modified" >2011-09-01T09:34:00-06:00</attribute>
 <attribute name="Name" >audio</attribute>
 <attribute name="ReadCount" >6</attribute>
-<attribute name="SelectionCount" >5</attribute>
+<attribute name="SelectionCount" >6</attribute>
 <attribute name="Xpos" >28</attribute>
 <attribute name="Ypos" >0</attribute>
 </item>
@@ -657,7 +657,7 @@
 <attribute name="Modified" >2011-09-13T10:20:00-06:00</attribute>
 <attribute name="Name" >map</attribute>
 <attribute name="ReadCount" >11</attribute>
-<attribute name="SelectionCount" >17</attribute>
+<attribute name="SelectionCount" >18</attribute>
 <attribute name="Xpos" >31.5</attribute>
 <attribute name="Ypos" >0</attribute>
 <text >put a grid over the map that&apos;s already available on use accelerometeruser gyroscope?is this possible using wifi?</text>
@@ -683,7 +683,7 @@ user gyroscope\par
 <attribute name="Modified" >2011-09-27T09:40:00-06:00</attribute>
 <attribute name="Name" >Countdown</attribute>
 <attribute name="ReadCount" >3</attribute>
-<attribute name="SelectionCount" >7</attribute>
+<attribute name="SelectionCount" >8</attribute>
 <attribute name="Xpos" >35</attribute>
 <attribute name="Ypos" >0</attribute>
 <text >the dino is hungry.  You have to get food to recharge the dino.</text>
@@ -706,7 +706,7 @@ user gyroscope\par
 <attribute name="Modified" >2011-09-27T10:02:00-06:00</attribute>
 <attribute name="Name" >patterns?</attribute>
 <attribute name="ReadCount" >2</attribute>
-<attribute name="SelectionCount" >2</attribute>
+<attribute name="SelectionCount" >3</attribute>
 <attribute name="Xpos" >38.5</attribute>
 <attribute name="Ypos" >0</attribute>
 <text >is there a pattern we want them to engage in?</text>
@@ -729,7 +729,7 @@ user gyroscope\par
 <attribute name="Modified" >2011-09-27T10:03:00-06:00</attribute>
 <attribute name="Name" >purpose?</attribute>
 <attribute name="ReadCount" >1</attribute>
-<attribute name="SelectionCount" >8</attribute>
+<attribute name="SelectionCount" >9</attribute>
 <attribute name="Xpos" >42</attribute>
 <attribute name="Ypos" >0</attribute>
 <text >is engagement the only thing, or do they want people learning more things?  Are there learning outcomes?• aspect of learning• tying parents and children together• learning beyond the venue itself• </text>
@@ -757,8 +757,8 @@ user gyroscope\par
 <attribute name="IsPrototype" >false</attribute>
 <attribute name="Modified" >2011-09-01T09:35:00-06:00</attribute>
 <attribute name="Name" >Clues</attribute>
-<attribute name="ReadCount" >15</attribute>
-<attribute name="SelectionCount" >23</attribute>
+<attribute name="ReadCount" >17</attribute>
+<attribute name="SelectionCount" >27</attribute>
 <attribute name="Xpos" >31.5</attribute>
 <attribute name="Ypos" >0</attribute>
 <item ID="3397714502" Creator="system" >
@@ -766,8 +766,8 @@ user gyroscope\par
 <attribute name="IsPrototype" >false</attribute>
 <attribute name="Modified" >2011-09-01T09:35:00-06:00</attribute>
 <attribute name="Name" >matching</attribute>
-<attribute name="ReadCount" >9</attribute>
-<attribute name="SelectionCount" >11</attribute>
+<attribute name="ReadCount" >10</attribute>
+<attribute name="SelectionCount" >14</attribute>
 <attribute name="Xpos" >-1.5</attribute>
 <attribute name="Ypos" >0</attribute>
 </item>
@@ -776,8 +776,8 @@ user gyroscope\par
 <attribute name="IsPrototype" >false</attribute>
 <attribute name="Modified" >2011-09-01T09:35:00-06:00</attribute>
 <attribute name="Name" >fill in the blank</attribute>
-<attribute name="ReadCount" >10</attribute>
-<attribute name="SelectionCount" >8</attribute>
+<attribute name="ReadCount" >11</attribute>
+<attribute name="SelectionCount" >11</attribute>
 <attribute name="Xpos" >2</attribute>
 <attribute name="Ypos" >0</attribute>
 </item>
@@ -786,20 +786,33 @@ user gyroscope\par
 <attribute name="IsPrototype" >false</attribute>
 <attribute name="Modified" >2011-09-01T09:35:00-06:00</attribute>
 <attribute name="Name" >picture match</attribute>
-<attribute name="ReadCount" >10</attribute>
-<attribute name="SelectionCount" >8</attribute>
+<attribute name="ReadCount" >16</attribute>
+<attribute name="SelectionCount" >16</attribute>
 <attribute name="Xpos" >5.5</attribute>
 <attribute name="Ypos" >0</attribute>
 </item>
 <item ID="3397714561" Creator="system" >
 <attribute name="Created" >2011-09-01T09:36:00-06:00</attribute>
 <attribute name="IsPrototype" >false</attribute>
-<attribute name="Modified" >2011-09-01T09:36:00-06:00</attribute>
+<attribute name="Modified" >2011-10-04T09:30:00-06:00</attribute>
 <attribute name="Name" >geolocations</attribute>
-<attribute name="ReadCount" >10</attribute>
-<attribute name="SelectionCount" >8</attribute>
+<attribute name="ReadCount" >12</attribute>
+<attribute name="SelectionCount" >15</attribute>
 <attribute name="Xpos" >9</attribute>
 <attribute name="Ypos" >0</attribute>
+<text >geocache?</text>
+<styles >
+ <tstyle font="Hoefler Text" bold="0" italic="0" underline="0" start="0" size="16" height="0" ascent="0" color="#000000"  />
+</styles>
+<rtf >{\rtf1\mac
+{\fonttbl
+{\f0\fnil\fcharset77 Hoefler Text;}}
+{\colortbl
+\red0\green0\blue0;}
+{\info}
+\deftab720
+{\pard\plain\uc0\f0\fs32\cf0\ql\sb120\li360\ri360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240 geocache?}}
+</rtf>
 </item>
 <item ID="3397714562" Creator="system" >
 <attribute name="Created" >2011-09-01T09:36:00-06:00</attribute>
@@ -807,7 +820,7 @@ user gyroscope\par
 <attribute name="Modified" >2011-09-01T09:36:00-06:00</attribute>
 <attribute name="Name" >multiple choice</attribute>
 <attribute name="ReadCount" >10</attribute>
-<attribute name="SelectionCount" >8</attribute>
+<attribute name="SelectionCount" >9</attribute>
 <attribute name="Xpos" >12.5</attribute>
 <attribute name="Ypos" >0</attribute>
 </item>
@@ -816,8 +829,8 @@ user gyroscope\par
 <attribute name="IsPrototype" >false</attribute>
 <attribute name="Modified" >2011-09-01T09:36:00-06:00</attribute>
 <attribute name="Name" >context-specific</attribute>
-<attribute name="ReadCount" >10</attribute>
-<attribute name="SelectionCount" >8</attribute>
+<attribute name="ReadCount" >11</attribute>
+<attribute name="SelectionCount" >11</attribute>
 <attribute name="Xpos" >16</attribute>
 <attribute name="Ypos" >0</attribute>
 </item>
@@ -826,20 +839,198 @@ user gyroscope\par
 <attribute name="IsPrototype" >false</attribute>
 <attribute name="Modified" >2011-09-01T09:36:00-06:00</attribute>
 <attribute name="Name" >recording</attribute>
-<attribute name="ReadCount" >11</attribute>
-<attribute name="SelectionCount" >10</attribute>
+<attribute name="ReadCount" >19</attribute>
+<attribute name="SelectionCount" >17</attribute>
 <attribute name="Xpos" >19.5</attribute>
 <attribute name="Ypos" >0</attribute>
 </item>
 <item ID="3397714621" Creator="system" >
 <attribute name="Created" >2011-09-01T09:37:00-06:00</attribute>
 <attribute name="IsPrototype" >false</attribute>
-<attribute name="Modified" >2011-09-01T09:37:00-06:00</attribute>
+<attribute name="Modified" >2011-10-04T09:29:00-06:00</attribute>
 <attribute name="Name" >picker</attribute>
-<attribute name="ReadCount" >7</attribute>
-<attribute name="SelectionCount" >7</attribute>
+<attribute name="ReadCount" >22</attribute>
+<attribute name="SelectionCount" >24</attribute>
 <attribute name="Xpos" >23</attribute>
 <attribute name="Ypos" >0</attribute>
+<text >pick the right answer?</text>
+<styles >
+ <tstyle font="Hoefler Text" bold="0" italic="0" underline="0" start="0" size="16" height="0" ascent="0" color="#000000"  />
+</styles>
+<rtf >{\rtf1\mac
+{\fonttbl
+{\f0\fnil\fcharset77 Hoefler Text;}}
+{\colortbl
+\red0\green0\blue0;}
+{\info}
+\deftab720
+{\pard\plain\uc0\f0\fs32\cf0\ql\sb120\li360\ri360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240 pick the right answer?}}
+</rtf>
+</item>
+<item ID="3399963601" Creator="system" >
+<attribute name="Created" >2011-09-27T10:20:00-06:00</attribute>
+<attribute name="IsPrototype" >false</attribute>
+<attribute name="Modified" >2011-09-27T10:20:00-06:00</attribute>
+<attribute name="Name" >lifelines</attribute>
+<attribute name="ReadCount" >13</attribute>
+<attribute name="SelectionCount" >15</attribute>
+<attribute name="Xpos" >26.5</attribute>
+<attribute name="Ypos" >0</attribute>
+<text >helps in case</text>
+<styles >
+ <tstyle font="Hoefler Text" bold="0" italic="0" underline="0" start="0" size="16" height="0" ascent="0" color="#000000"  />
+</styles>
+<rtf >{\rtf1\mac
+{\fonttbl
+{\f0\fnil\fcharset77 Hoefler Text;}}
+{\colortbl
+\red0\green0\blue0;}
+{\info}
+\deftab720
+{\pard\plain\uc0\f0\fs32\cf0\ql\sb120\li360\ri360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240 helps in case}}
+</rtf>
+<item ID="3399963661" Creator="system" >
+<attribute name="Created" >2011-09-27T10:21:00-06:00</attribute>
+<attribute name="IsPrototype" >false</attribute>
+<attribute name="Modified" >2011-09-27T10:21:00-06:00</attribute>
+<attribute name="Name" >phone it in</attribute>
+<attribute name="ReadCount" >11</attribute>
+<attribute name="SelectionCount" >12</attribute>
+<attribute name="Xpos" >-1.5</attribute>
+<attribute name="Ypos" >0</attribute>
+</item>
+<item ID="3399963662" Creator="system" >
+<attribute name="Created" >2011-09-27T10:21:00-06:00</attribute>
+<attribute name="IsPrototype" >false</attribute>
+<attribute name="Modified" >2011-10-04T09:25:00-06:00</attribute>
+<attribute name="Name" >hot/cold</attribute>
+<attribute name="ReadCount" >10</attribute>
+<attribute name="SelectionCount" >13</attribute>
+<attribute name="Xpos" >2</attribute>
+<attribute name="Ypos" >0</attribute>
+<text >pointer to get people in the right direction</text>
+<styles >
+ <tstyle font="Hoefler Text" bold="0" italic="0" underline="0" start="0" size="16" height="0" ascent="0" color="#000000"  />
+</styles>
+<rtf >{\rtf1\mac
+{\fonttbl
+{\f0\fnil\fcharset77 Hoefler Text;}}
+{\colortbl
+\red0\green0\blue0;}
+{\info}
+\deftab720
+{\pard\plain\uc0\f0\fs32\cf0\ql\sb120\li360\ri360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240 pointer to get people in the right direction}}
+</rtf>
+</item>
+</item>
+<item ID="3400565521" Creator="system" >
+<attribute name="Created" >2011-10-04T09:32:00-06:00</attribute>
+<attribute name="IsPrototype" >false</attribute>
+<attribute name="Modified" >2011-10-04T09:32:00-06:00</attribute>
+<attribute name="Name" >I spy</attribute>
+<attribute name="ReadCount" >2</attribute>
+<attribute name="SelectionCount" >3</attribute>
+<attribute name="Xpos" >30</attribute>
+<attribute name="Ypos" >0</attribute>
+</item>
+<item ID="3400565522" Creator="system" >
+<attribute name="Created" >2011-10-04T09:32:00-06:00</attribute>
+<attribute name="IsPrototype" >false</attribute>
+<attribute name="Modified" >2011-10-04T09:32:00-06:00</attribute>
+<attribute name="Name" >charades</attribute>
+<attribute name="ReadCount" >2</attribute>
+<attribute name="SelectionCount" >3</attribute>
+<attribute name="Xpos" >33.5</attribute>
+<attribute name="Ypos" >0</attribute>
+</item>
+<item ID="3400565523" Creator="system" >
+<attribute name="Created" >2011-10-04T09:32:00-06:00</attribute>
+<attribute name="IsPrototype" >false</attribute>
+<attribute name="Modified" >2011-10-04T09:32:00-06:00</attribute>
+<attribute name="Name" >pictionary</attribute>
+<attribute name="ReadCount" >2</attribute>
+<attribute name="SelectionCount" >4</attribute>
+<attribute name="Xpos" >37</attribute>
+<attribute name="Ypos" >0</attribute>
+<text >what they&apos;re drawing in the room</text>
+<styles >
+ <tstyle font="Hoefler Text" bold="0" italic="0" underline="0" start="0" size="16" height="0" ascent="0" color="#000000"  />
+</styles>
+<rtf >{\rtf1\mac
+{\fonttbl
+{\f0\fnil\fcharset77 Hoefler Text;}}
+{\colortbl
+\red0\green0\blue0;}
+{\info}
+\deftab720
+{\pard\plain\uc0\f0\fs32\cf0\ql\sb120\li360\ri360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240 what they&apos;re drawing in the room}}
+</rtf>
+</item>
+<item ID="3400565524" Creator="system" >
+<attribute name="Created" >2011-10-04T09:32:00-06:00</attribute>
+<attribute name="IsPrototype" >false</attribute>
+<attribute name="Modified" >2011-10-04T09:32:00-06:00</attribute>
+<attribute name="Name" >20 questions</attribute>
+<attribute name="ReadCount" >2</attribute>
+<attribute name="SelectionCount" >3</attribute>
+<attribute name="Xpos" >40.5</attribute>
+<attribute name="Ypos" >0</attribute>
+</item>
+<item ID="3400565525" Creator="system" >
+<attribute name="Created" >2011-10-04T09:32:00-06:00</attribute>
+<attribute name="IsPrototype" >false</attribute>
+<attribute name="Modified" >2011-10-04T09:32:00-06:00</attribute>
+<attribute name="Name" >madlibs</attribute>
+<attribute name="ReadCount" >2</attribute>
+<attribute name="SelectionCount" >3</attribute>
+<attribute name="Xpos" >44</attribute>
+<attribute name="Ypos" >0</attribute>
+</item>
+<item ID="3400565581" Creator="system" >
+<attribute name="Created" >2011-10-04T09:33:00-06:00</attribute>
+<attribute name="IsPrototype" >false</attribute>
+<attribute name="Modified" >2011-10-04T09:35:00-06:00</attribute>
+<attribute name="Name" >cave women jewelry</attribute>
+<attribute name="ReadCount" >2</attribute>
+<attribute name="SelectionCount" >5</attribute>
+<attribute name="Xpos" >47.5</attribute>
+<attribute name="Ypos" >0</attribute>
+<text >string on the screen.  Can make a necklace with the pieces won by solving puzzles.  Take picture of self with necklace.</text>
+<styles >
+ <tstyle font="Hoefler Text" bold="0" italic="0" underline="0" start="0" size="16" height="0" ascent="0" color="#000000"  />
+</styles>
+<rtf >{\rtf1\mac
+{\fonttbl
+{\f0\fnil\fcharset77 Hoefler Text;}}
+{\colortbl
+\red0\green0\blue0;}
+{\info}
+\deftab720
+{\pard\plain\uc0\f0\fs32\cf0\ql\sb120\li360\ri360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240 string on the screen.  Can make a necklace with the pieces won by solving puzzles.  Take picture of self with necklace.}}
+</rtf>
+</item>
+<item ID="3400565701" Creator="system" >
+<attribute name="Created" >2011-10-04T09:35:00-06:00</attribute>
+<attribute name="IsPrototype" >false</attribute>
+<attribute name="Modified" >2011-10-04T09:37:00-06:00</attribute>
+<attribute name="Name" >take picture and put on screen</attribute>
+<attribute name="ReadCount" >1</attribute>
+<attribute name="SelectionCount" >7</attribute>
+<attribute name="Xpos" >51</attribute>
+<attribute name="Ypos" >0</attribute>
+<text >pic. of people throughout exhibits.</text>
+<styles >
+ <tstyle font="Hoefler Text" bold="0" italic="0" underline="0" start="0" size="16" height="0" ascent="0" color="#000000"  />
+</styles>
+<rtf >{\rtf1\mac
+{\fonttbl
+{\f0\fnil\fcharset77 Hoefler Text;}}
+{\colortbl
+\red0\green0\blue0;}
+{\info}
+\deftab720
+{\pard\plain\uc0\f0\fs32\cf0\ql\sb120\li360\ri360\tx720\tx1080\tx1440\tx1800\tx2160\tx2520\tx2880\tx3240 pic. of people throughout exhibits.}}
+</rtf>
 </item>
 </item>
 <item ID="3399961321" Creator="system" >
@@ -848,7 +1039,7 @@ user gyroscope\par
 <attribute name="Modified" >2011-09-27T09:42:00-06:00</attribute>
 <attribute name="Name" >constant buttons</attribute>
 <attribute name="ReadCount" >4</attribute>
-<attribute name="SelectionCount" >6</attribute>
+<attribute name="SelectionCount" >7</attribute>
 <attribute name="Xpos" >35</attribute>
 <attribute name="Ypos" >0</attribute>
 <item ID="3399961322" Creator="system" >
@@ -911,7 +1102,7 @@ user gyroscope\par
 <attribute name="Modified" >2011-09-27T09:45:00-06:00</attribute>
 <attribute name="Name" >data model</attribute>
 <attribute name="ReadCount" >7</attribute>
-<attribute name="SelectionCount" >11</attribute>
+<attribute name="SelectionCount" >12</attribute>
 <attribute name="Xpos" >38.5</attribute>
 <attribute name="Ypos" >0</attribute>
 <item ID="3399961502" Creator="system" >
@@ -928,7 +1119,7 @@ user gyroscope\par
 <attribute name="IsPrototype" >false</attribute>
 <attribute name="Modified" >2011-09-27T09:45:00-06:00</attribute>
 <attribute name="Name" >number</attribute>
-<attribute name="ReadCount" >38</attribute>
+<attribute name="ReadCount" >51</attribute>
 <attribute name="SelectionCount" >13</attribute>
 <attribute name="Xpos" >-1.5</attribute>
 <attribute name="Ypos" >0</attribute>
@@ -1011,7 +1202,7 @@ user gyroscope\par
 <attribute name="Modified" >2011-09-27T10:09:00-06:00</attribute>
 <attribute name="Name" >Assignments</attribute>
 <attribute name="ReadCount" >2</attribute>
-<attribute name="SelectionCount" >3</attribute>
+<attribute name="SelectionCount" >4</attribute>
 <attribute name="Xpos" >42</attribute>
 <attribute name="Ypos" >0</attribute>
 <item ID="3399962942" Creator="system" >
@@ -1020,7 +1211,7 @@ user gyroscope\par
 <attribute name="Modified" >2011-09-27T10:09:00-06:00</attribute>
 <attribute name="Name" >FIB</attribute>
 <attribute name="ReadCount" >3</attribute>
-<attribute name="SelectionCount" >6</attribute>
+<attribute name="SelectionCount" >7</attribute>
 <attribute name="Xpos" >-1.5</attribute>
 <attribute name="Ypos" >0</attribute>
 <text >darin</text>
@@ -1043,7 +1234,7 @@ user gyroscope\par
 <attribute name="Modified" >2011-09-27T10:10:00-06:00</attribute>
 <attribute name="Name" >Multiple Choice</attribute>
 <attribute name="ReadCount" >7</attribute>
-<attribute name="SelectionCount" >9</attribute>
+<attribute name="SelectionCount" >10</attribute>
 <attribute name="Xpos" >2</attribute>
 <attribute name="Ypos" >0</attribute>
 </item>
@@ -1053,7 +1244,7 @@ user gyroscope\par
 <attribute name="Modified" >2011-09-27T10:16:00-06:00</attribute>
 <attribute name="Name" >Dragging</attribute>
 <attribute name="ReadCount" >1</attribute>
-<attribute name="SelectionCount" >2</attribute>
+<attribute name="SelectionCount" >3</attribute>
 <attribute name="Xpos" >5.5</attribute>
 <attribute name="Ypos" >0</attribute>
 <text >matching</text>
@@ -1219,8 +1410,6 @@ user gyroscope\par
    <SimplenoteTag > </SimplenoteTag>
 </preferences>
 <windows >
-<window ID="3399961507" Creator="system" type="text" bounds="Rect[ 50 50 750 450]" x="0" y="0" scale="1"  />
-<window ID="3397714262" Creator="system" type="map" bounds="Rect[ 344 67 1068 539]" x="111" y="60" scale="5" collapsed="3397714262 "  />
-<window ID="3397714501" Creator="system" type="explorer" bounds="Rect[ 306 82 1012 608]" x="0" y="0" scale="5" split="300" expanded="3397714083 3397714262 3397714501 3399961502 3399961503 3399962941 " collapsed="3399961321 3399961501 "  />
+<window type="explorer" bounds="Rect[ 189 80 1200 691]" x="0" y="0" scale="5" split="300" expanded="3397714083 3397714262 3397714501 3399961321 3399961501 3399961502 3399961503 3399962941 " collapsed="3399963601 "  />
 </windows>
 </tinderbox>
