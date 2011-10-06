@@ -1,11 +1,12 @@
 _H = display.contentHeight
 _W = display.contentWidth
 
-xValue = _W/4
+xValue = _W/3.75
 yValue = _H/5.5
 print("Y: "..yValue)
 
 -- Make photos draggable
+
 
 local imageTable = {}
 imageTable[4] = "images/triceratops.jpg"
@@ -13,11 +14,6 @@ imageTable[1] = "images/sabertoothLive.jpg"
 imageTable[2] = "images/trexLive.jpg"
 imageTable[3] = "images/raptorLive.jpg"
 
-local skullTable = {}
-skullTable[4] = "images/torosaurus.png"
-skullTable[1] = "images/sabertooth.jpg"
-skullTable[2] = "images/trex.jpg"
-skullTable[3] = "images/raptor.jpg"
 
 local button = display.newRect(0,0,44,44)
 button.x = _W/2
@@ -27,17 +23,17 @@ dropTainer = {}
 for i = 1,4 do
 	-- Create four locations to drop photos
 
-	local dropContainer = display.newImageRect(imageTable[i],_W/2.5,_H/5)
+	local dropContainer = display.newImageRect(imageTable[i],_W/2.75,_H/6)
 	dropContainer.x = xValue
 	dropContainer.y = yValue
 	--dropContainer:setFillColor(0)
 	dropContainer.strokeWidth=1
 	dropContainer:setStrokeColor(250,250,250)
 	if (i == 1) or (i == 3) then
-		xValue = xValue *2.5
+		xValue = xValue *2.75
 	end
 	if (i == 2) then
-		xValue = xValue / 2.5
+		xValue = xValue / 2.75
 		yValue = yValue *2.1
 		
 	end
@@ -45,8 +41,8 @@ for i = 1,4 do
 end
 -- Create four photos to match each of the four titles
 
-xValue = _W/3.5
-yValue = yValue *2.1
+--xValue = _W/3.75
+--yValue = yValue *2.1
 
 function dragPix( event )
 	local objectNum = event.target.j
@@ -72,28 +68,104 @@ function dragPix( event )
     end
   return true
 end
-function placePhotos()
-for i = 1,4 do
-	-- Create four locations to drop photos
 
-	local dragImage = display.newImageRect(skullTable[i],_W/2.5,_H/5)
+local skullTable = {}
+skullTable[4] = "images/torosaurus.png"
+skullTable[1] = "images/sabertooth.jpg"
+skullTable[2] = "images/trex.jpg"
+skullTable[3] = "images/raptor.jpg"
+
+function placePhotos(event)
+
+function setPhotos()
+for i = 1,4 do
+	print ("Placing photos "..xValue.." and "..i)
+	-- Create four locations to drop photos
+	
+dragImage = display.newImageRect(skullTable[i],_W/2.75,_H/6)
+	print (skullTable[i])
 	dragImage.x = xValue
 	dragImage.y = yValue*.75
-
 	if (i == 1) or (i == 3) then
-	xValue = xValue *2.5
-end
-if (i == 2) then
-	xValue = xValue / 2.5
-	yValue = yValue *1.35
+		xValue = xValue *2.75
+		print("this works".. xValue)
+	end
+	if (i == 2) then
+		xValue = xValue / 2.75
+		yValue = yValue *1.35
+		print("as does this -- Y value " .. yValue)
+	end
+
+	dragImage.j = i
+	dragImage:addEventListener( "touch", dragPix )
+  end
 end
 
-dragImage.j = i
-dragImage:addEventListener( "touch", dragPix )
+--print ("Happens")
+if event then
+	xValue = _W/3.75
+	yValue = yValue *2.1
+
+	if event.phase == "began" then
+	print ("Began")
+	for k = 1,4 do
+		print (k) 
+		if(dragImage.j == k) then
+			print ("trial "..k.." Dragimagek = ".. dragImage.j)
+		end
+		if(dragImage.j == k) then
+			print ("Removing" .. k)
+			print (dragImage.x)
+			dragImage.j = nil
+			dragImage.x = nil
+			dragImage.y = nil
+			dragImage:removeEventListener("touch",dragPix)
+			dragImage:removeSelf()
+		end
+		
+	end
+	setPhotos()
+else 
+xValue = _W/3.75
+yValue = yValue *2.1
+setPhotos()
+
 
 end
 end
+--[[
+
+print("X = "..xValue)
+print("Y = "..yValue)
+if event then
+if(event.phase == "began") then
+	for k = 1,4 do
+		print (k) 
+		if(dragImage.j == k) then
+			print ("trial "..k.." Dragimagek = ".. dragImage.j)
+		end
+		if(dragImage.j == k) then
+			print ("Removing" .. k)
+			print (dragImage.x)
+			dragImage.j = nil
+			dragImage.x = nil
+			dragImage.y = nil
+			dragImage:removeEventListener("touch",dragPix)
+			dragImage:removeSelf()
+		end
+		
+	end
+end 
+end ]]  
+	
+
+end
+
+if (dragImage == nil) then
+
 placePhotos()
+
+end   
 button:addEventListener("touch",placePhotos)
 
 -- Recognize if dragged photos are in proximity of matching location
