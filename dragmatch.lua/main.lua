@@ -1,8 +1,8 @@
 _H = display.contentHeight
 _W = display.contentWidth
 
-xValue = _W/3.5
-yValue = _H/5
+xValue = _W/4
+yValue = _H/5.5
 print("Y: "..yValue)
 
 -- Make photos draggable
