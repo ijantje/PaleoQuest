@@ -49,10 +49,11 @@ function dragPix( event )
     if event.phase == "began" then
         event.target.markX = event.target.x    -- store x location of object
         event.target.markY = event.target.y    -- store y location of object
+		
     elseif event.phase == "moved" then
         local x = (event.x - event.xStart) + event.target.markX
         local y = (event.y - event.yStart) + event.target.markY
-        display.getCurrentStage():setFocus(self)
+        display.getCurrentStage():setFocus(event.target)
 		
         event.target.x, event.target.y = x, y    -- move object based on calculations above
 
@@ -61,10 +62,12 @@ function dragPix( event )
 			and (x/dropTainer[objectNum].x < 1.2) and (y/dropTainer[objectNum].y < 1.2) then
 			event.target.x = dropTainer[objectNum].x
 			event.target.y = dropTainer[objectNum].y
+			display.getCurrentStage():setFocus(nil)
 		end
 	elseif event.phase == "ended" and event.target.x ~= dropTainer[objectNum].x and event.target.y ~= dropTainer[objectNum].y then
 			event.target.x = event.target.markX
 			event.target.y = event.target.markY
+			display.getCurrentStage():setFocus(nil)
     end
   return true
 end
