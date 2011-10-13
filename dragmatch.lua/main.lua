@@ -2,7 +2,7 @@ _H = display.contentHeight
 _W = display.contentWidth
 
 xValue = _W/3.75
-yValue = _H/5.5
+yValue = _H/6.2
 print("Y: "..yValue)
 
 -- Make photos draggable
@@ -17,7 +17,7 @@ imageTable[3] = "images/raptorLive.jpg"
 
 local button = display.newRect(0,0,44,44)
 button.x = _W/2
-button.y = _H/3*2
+button.y = _H/1.1
 
 dropTainer = {}
 for i = 1,4 do
@@ -77,10 +77,11 @@ skullTable[3] = "images/raptor.jpg"
 
 function placePhotos(event)
 
-function setPhotos()
+local function setPhotos()
+ draggables = display.newGroup()
 for i = 1,4 do
 	print ("Placing photos "..xValue.." and "..i)
-	-- Create four locations to drop photos
+	-- Create four droppable photos
 	
 dragImage = display.newImageRect(skullTable[i],_W/2.75,_H/6)
 	print (skullTable[i])
@@ -97,34 +98,36 @@ dragImage = display.newImageRect(skullTable[i],_W/2.75,_H/6)
 	end
 
 	dragImage.j = i
+	dragImage.l = "isDraggable"
+	print("dragimageJ = "..dragImage.j)
 	dragImage:addEventListener( "touch", dragPix )
+	draggables:insert(dragImage)
+	print("Draggables" .. i .. ": " .. draggables[i].j)
   end
 end
 
 --print ("Happens")
 if event then
-	xValue = _W/3.75
-	yValue = yValue *2.1
 
 	if event.phase == "began" then
+	xValue = _W/3.75
+	yValue = yValue / 1.35
 	print ("Began")
-	for k = 1,4 do
+	for k = draggables.numChildren, 1 , -1 do
 		print (k) 
-		if(dragImage.j == k) then
-			print ("trial "..k.." Dragimagek = ".. dragImage.j)
-		end
-		if(dragImage.j == k) then
+		if(draggables[k].l == "isDraggable") then
+			print ("trial "..k.." draggables[k]l = ".. draggables[k].l)
 			print ("Removing" .. k)
-			print (dragImage.x)
-			dragImage.j = nil
-			dragImage.x = nil
-			dragImage.y = nil
-			dragImage:removeEventListener("touch",dragPix)
-			dragImage:removeSelf()
+			print (draggables.x)
+			draggables[k]:removeEventListener("touch",dragPix)
+			draggables[k]:removeSelf()
+			
 		end
 		
 	end
 	setPhotos()
+	end
+
 else 
 xValue = _W/3.75
 yValue = yValue *2.1
@@ -159,7 +162,7 @@ end
 end ]]  
 	
 
-end
+--end
 
 if (dragImage == nil) then
 
