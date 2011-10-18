@@ -1,0 +1,10 @@
+settings =
+{
+	androidPermissions =
+			{
+				"android.permission.INTERNET",
+				"android.permission-group.HARDWARE_CONTROLS",
+				"android.permission-group.STORAGE",
+				"android.permission.VIBRATE"
+			},
+}
