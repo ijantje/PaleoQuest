@@ -2,6 +2,7 @@ _H = display.contentHeight
 _W = display.contentWidth
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 -- Load the relevant LuaSocket modules
 local http = require("socket.http")
 local ltn12 = require("ltn12")
@@ -12,10 +13,15 @@ yValue = _H/6.2
 xValue = _W/3.5
 yValue = _H/5
 >>>>>>> Christijan
+=======
+xValue = _W/3.5
+yValue = _H/5
+>>>>>>> Christijan
 print("Y: "..yValue)
 
 -- Make photos draggable
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 local imageTable = {}
@@ -43,6 +49,8 @@ local button = display.newRect(0,0,44,44)
 button.x = _W/2
 button.y = _H/1.1
 =======
+=======
+>>>>>>> Christijan
 local imageTable = {}
 imageTable[4] = "images/triceratops.jpg"
 imageTable[1] = "images/sabertoothLive.jpg"
@@ -58,6 +66,9 @@ skullTable[3] = "images/raptor.jpg"
 local button = display.newRect(0,0,44,44)
 button.x = _W/2
 button.y = _H/3*2
+<<<<<<< HEAD
+>>>>>>> Christijan
+=======
 >>>>>>> Christijan
 
 dropTainer = {}
@@ -65,7 +76,11 @@ for i = 1,4 do
 	-- Create four locations to drop photos
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	local dropContainer = display.newImageRect(imageTable[i],system.DocumentsDirectory,_W/2.75,_H/6)
+=======
+	local dropContainer = display.newImageRect(imageTable[i],_W/2.5,_H/5)
+>>>>>>> Christijan
 =======
 	local dropContainer = display.newImageRect(imageTable[i],_W/2.5,_H/5)
 >>>>>>> Christijan
@@ -76,20 +91,27 @@ for i = 1,4 do
 	dropContainer:setStrokeColor(250,250,250)
 	if (i == 1) or (i == 3) then
 <<<<<<< HEAD
+<<<<<<< HEAD
 		xValue = xValue *2.8
 	end
 	if (i == 2) then
 		xValue = xValue / 2.8
 =======
+=======
+>>>>>>> Christijan
 		xValue = xValue *2.5
 	end
 	if (i == 2) then
 		xValue = xValue / 2.5
+<<<<<<< HEAD
+>>>>>>> Christijan
+=======
 >>>>>>> Christijan
 		yValue = yValue *2.1
 		
 	end
 	dropTainer[i] = dropContainer
+<<<<<<< HEAD
 <<<<<<< HEAD
 	dropTainer[i].ID = imageTable[i]
 end
@@ -124,6 +146,8 @@ function dragPix( event )
 			system.vibrate()
 			display.getCurrentStage():setFocus(nil)
 =======
+=======
+>>>>>>> Christijan
 end
 -- Create four photos to match each of the four titles
 
@@ -147,11 +171,15 @@ function dragPix( event )
 			and (x/dropTainer[objectNum].x < 1.2) and (y/dropTainer[objectNum].y < 1.2) then
 			event.target.x = dropTainer[objectNum].x
 			event.target.y = dropTainer[objectNum].y
+<<<<<<< HEAD
+>>>>>>> Christijan
+=======
 >>>>>>> Christijan
 		end
 	elseif event.phase == "ended" and event.target.x ~= dropTainer[objectNum].x and event.target.y ~= dropTainer[objectNum].y then
 			event.target.x = event.target.markX
 			event.target.y = event.target.markY
+<<<<<<< HEAD
 <<<<<<< HEAD
 			display.getCurrentStage():setFocus(nil)
 	
@@ -248,6 +276,8 @@ placePhotos()
 end   
 button:addEventListener("touch",placePhotos)
 =======
+=======
+>>>>>>> Christijan
     end
   return true
 end
@@ -312,5 +342,9 @@ end
 -- make 'myObject' listen for touch events
 myObject:addEventListener( "touch", myObject )
 
+<<<<<<< HEAD
+]]--
+>>>>>>> Christijan
+=======
 ]]--
 >>>>>>> Christijan
