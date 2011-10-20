@@ -1,22 +1,52 @@
 _H = display.contentHeight
 _W = display.contentWidth
-
+local question = 1
 -- Load the relevant LuaSocket modules
 local http = require("socket.http")
 local ltn12 = require("ltn12")
+
+-- include sqlite library
+require "sqlite3"
+
+--set the database path
+local dbpath = system.pathForFile("tp_quests.sqlite")
+
+--open dbs
+database = sqlite3.open(dbpath)
+
+--handle the applicationExit to close the db
+local function onSystemEvent(event)
+	if(event.type == "applicationExit") then
+		database:close()
+	end
+end
+
+--get image names
+local sql = "SELECT * FROM type_draggable WHERE question_id = "..question
+local imageTable = {}
+local skullTable = {}
+
+for row in database:nrows(sql) do	
+	imageTable[1] = row.item_1
+	imageTable[2] = row.item_2
+	imageTable[3] = row.item_3
+	imageTable[4] = row.item_4
+	skullTable[3] = row.item_3_match
+	skullTable[1] = row.item_1_match
+	skullTable[4] = row.item_4_match
+	skullTable[2] = row.item_2_match
+
+end
+print("Photo 1: = "..skullTable[1])
+print("Photo 2: = "..skullTable[2])
+print("Photo 3: = "..skullTable[3])
+print("Photo 4: = "..skullTable[4])
 
 xValue = _W/3.8
 yValue = _H/6.2
 
 print("Y: "..yValue)
 
--- Make photos draggable
-
-local imageTable = {}
-imageTable[4] = "tritop.jpg"
-imageTable[1] = "stooth.jpg"
-imageTable[2] = "t-rex.jpg"
-imageTable[3] = "vraptor.jpg"
 
 for i = 1,4 do
 
@@ -103,11 +133,6 @@ function dragPix( event )
   return true
 end
 
-local skullTable = {}
-skullTable[3] = "tritopSkull.jpg"
-skullTable[1] = "stoothSkull.jpg"
-skullTable[4] = "t-rexSkull.jpg"
-skullTable[2] = "vraptorSkull.jpg"
 
 for i = 1,4 do
 
