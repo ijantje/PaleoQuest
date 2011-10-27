@@ -1,5 +1,7 @@
 _H = display.contentHeight
 _W = display.contentWidth
+local total
+total = 0
 local question = 3
 -- Load the relevant LuaSocket modules
 local http = require("socket.http")
@@ -87,7 +89,7 @@ print("Next Y value: "..yValue)
 function dragPix( event )
 -- Find the right dropTainer
 	local objectNum
-
+	
 	for num = 1,4 do
 		if (string.sub(dropTainer[num].ID,1,-5).."Skull" == string.sub(event.target.ID,1,-5)) then
 			objectNum = num
@@ -114,6 +116,10 @@ function dragPix( event )
 			event.target:removeEventListener("touch",dragPix)
 			system.vibrate()
 			display.getCurrentStage():setFocus(nil)
+			total = total + objectNum
+			if(total == 10) then
+				print("It is finished.")
+			end
 
 		end
 
