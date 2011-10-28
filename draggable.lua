@@ -1,22 +1,48 @@
 _H = display.contentHeight
 _W = display.contentWidth
-
+local question = 3
 -- Load the relevant LuaSocket modules
 local http = require("socket.http")
 local ltn12 = require("ltn12")
 
+-- include sqlite library
+require "sqlite3"
+
+--set the database path
+local dbpath = system.pathForFile("Quest.sqlite")
+
+--open dbs
+database = sqlite3.open(dbpath)
+
+--handle the applicationExit to close the db
+local function onSystemEvent(event)
+	if(event.type == "applicationExit") then
+		database:close()
+	end
+end
+
+--get image names
+local sql = "SELECT * FROM type_draggable WHERE question_id = "..question
+local imageTable = {}
+local skullTable = {}
+local stem
+for row in database:nrows(sql) do	
+	imageTable[1] = row.item_1
+	imageTable[2] = row.item_2
+	imageTable[3] = row.item_3
+	imageTable[4] = row.item_4
+	skullTable[3] = row.item_3_match
+	skullTable[1] = row.item_1_match
+	skullTable[4] = row.item_4_match
+	skullTable[2] = row.item_2_match
+	stem = row.stem
+
+end
+
 xValue = _W/3.8
 yValue = _H/6.2
 
-print("Y: "..yValue)
-
--- Make photos draggable
-
-local imageTable = {}
-imageTable[4] = "tritop.jpg"
-imageTable[1] = "stooth.jpg"
-imageTable[2] = "t-rex.jpg"
-imageTable[3] = "vraptor.jpg"
+print("Beginning Y value: "..yValue)
 
 for i = 1,4 do
 
@@ -32,10 +58,6 @@ http.request{
 
  
 end
-
-local button = display.newRect(0,0,44,44)
-button.x = _W/2
-button.y = _H/3*2.7
 
 dropTainer = {}
 for i = 1,4 do
@@ -61,10 +83,11 @@ for i = 1,4 do
 	dropTainer[i].ID = imageTable[i]
 end
 -- Create four photos to match each of the four titles
-
+print("Next Y value: "..yValue)
 function dragPix( event )
 -- Find the right dropTainer
 	local objectNum
+
 	for num = 1,4 do
 		if (string.sub(dropTainer[num].ID,1,-5).."Skull" == string.sub(event.target.ID,1,-5)) then
 			objectNum = num
@@ -103,11 +126,6 @@ function dragPix( event )
   return true
 end
 
-local skullTable = {}
-skullTable[3] = "tritopSkull.jpg"
-skullTable[1] = "stoothSkull.jpg"
-skullTable[4] = "t-rexSkull.jpg"
-skullTable[2] = "vraptorSkull.jpg"
 
 for i = 1,4 do
 
@@ -126,53 +144,49 @@ function placePhotos(event)
 
 local function setPhotos()
  draggables = display.newGroup()
+ local randomNumber = math.random(4)
 for i = 1,4 do
-	print ("Placing photos "..xValue.." and "..i)
-	-- Create four droppable photos
+
+-- Create four droppable photos
 	
-dragImage = display.newImageRect(skullTable[i],system.DocumentsDirectory,_W/2.8,_H/6)
-	print (skullTable[i])
+dragImage = display.newImageRect(skullTable[randomNumber],system.DocumentsDirectory,_W/2.8,_H/6)
 	dragImage.x = xValue
 	dragImage.y = yValue*.75
 	if (i == 1) or (i == 3) then
 		xValue = xValue *2.75
-		print("this works".. xValue)
 	end
 	if (i == 2) then
 		xValue = xValue / 2.75
 		yValue = yValue *1.33
-		print("as does this -- Y value " .. yValue)
 	end
 
-	dragImage.j = i
-	dragImage.ID = skullTable[i]
+	dragImage.j = randomNumber
+	dragImage.ID = skullTable[randomNumber]
 	dragImage.l = "isDraggable"
-	print("dragimageJ = "..dragImage.j)
 	dragImage:addEventListener( "touch", dragPix )
 	draggables:insert(dragImage)
-	print("Draggables" .. i .. ": " .. draggables[i].j)
+	if(randomNumber < 4) then
+			randomNumber = randomNumber+1
+		else
+			randomNumber = 1
+		end
   end
 end
 
---print ("Happens")
 if event then
 
 	if event.phase == "began" then
-	xValue = _W/3.8
-	yValue = yValue / 1.35
-	print ("Began")
+	
 	for k = draggables.numChildren, 1 , -1 do
-		print (k) 
 		if(draggables[k].l == "isDraggable") then
-			print ("trial "..k.." draggables[k]l = ".. draggables[k].l)
-			print ("Removing" .. k)
-			print (draggables.x)
 			draggables[k]:removeEventListener("touch",dragPix)
 			draggables[k]:removeSelf()
 			
 		end
 		
 	end
+	xValue = _W/3.75
+	yValue = yValue/1.33
 	setPhotos()
 	end
 
@@ -185,5 +199,20 @@ setPhotos()
 end
 end
 placePhotos()
+
+local buttonGroup = display.newGroup()
+local button = display.newRect(0,0,88,33)
+
+buttonLabel = display.newText("Reset", button.width/3,0,"Helvetica",13)
+buttonLabel:setTextColor(0,0,0)
+
+buttonGroup:insert(button)
+buttonGroup:insert(buttonLabel)
+buttonGroup:setReferencePoint(display.CenterReferencePoint)
+buttonGroup.x = _W/2
+buttonGroup.y = _H/3*2.85
+stemLabel = display.newText(stem,30,_H/3*2.5,"Helvetica",16)
+stemLabel:setTextColor(255,255,255)
+
 
 button:addEventListener("touch",placePhotos)
