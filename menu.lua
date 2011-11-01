@@ -39,14 +39,14 @@ function new()
 	btn_hunt:setReferencePoint(display.CenterReferencePoint)
 	btn_hunt.x = bottombar.width/2
 	btn_hunt.y = bottombar.y
-	btn_hunt.scene = "hunt"
+	btn_hunt.scene = "map"
 	localGroup:insert(btn_hunt)
 	
 	local btn_minis = display.newImageRect("images/btn_minis68x39.png", 68, 39)
 	btn_minis:setReferencePoint(display.CenterReferencePoint)
 	btn_minis.x = bottombar.width - bottombar.width/6
 	btn_minis.y = bottombar.y
-	btn_minis.scene = "minis"
+	btn_minis.scene = "draggable"
 	localGroup:insert(btn_minis)
 	
 	local function autoWrappedText(text, font, size, color, width)

@@ -1,34 +1,76 @@
---help
+--map screen
 
 module(..., package.seeall)
 
 function new()
 	local localGroup = display.newGroup()
 	
+-- include sqlite library
+require "sqlite3"
+
+--set the database path
+local dbpath = system.pathForFile("tp_quests.sqlite")
+
+--open dbs
+database = sqlite3.open(dbpath)
+
+--handle the applicationExit to close the db
+local function onSystemEvent(event)
+	if(event.type == "applicationExit") then
+		database:close()
+	end
+end
+
+-- create variable to represent hunt as passed from previous screen
+
+	local questID = 1
+
+--get question IDs
+local sql = "SELECT question_id FROM quest_questions WHERE quest_id = "..questID
+print (sql)
+local questionTable = {}
+local i=1
+for row in database:nrows(sql) do	
+	questionTable[i] = row.question_id
+	print(questionTable[i])
+	i = i+1
+end
+
+--get question information
+
+local sql = "SELECT question_type,question_location_id FROM questions WHERE question_id = "..questionTable[1]
+print (sql)
+params ={
+	ID = questionTable[1]
+	}
+for row in database:nrows(sql) do	
+	params.questionType = row.question_type
+	params.location = row.question_location_id
+end
+
+	
+-- create variable to select correct question to advance to on next screen
+	
+
 	local click = audio.loadSound("click.wav")
 	
 	local menuDescr = " "
 	local menuInstr = " "
 	
-	local topbar = display.newImageRect("images/topbar320x54.png", 320, 54)
-	topbar:setReferencePoint(display.CenterReferencePoint)
-	topbar.x = topbar.width/2
-	topbar.y = topbar.height/2
-	localGroup:insert(topbar)
-	
 	local bg = display.newImageRect("images/map.png", 320, 372)
 	bg:setReferencePoint(display.CenterReferencePoint)
 	bg.x = bg.width/2
-	bg.y = bg.height/2 + topbar.height
+	bg.y = bg.height/2 + 54
 	localGroup:insert(bg)
 	
 	local bottombar = display.newImageRect("images/bottombar320x54.png", 320, 54)
 	bottombar:setReferencePoint(display.CenterReferencePoint)
 	bottombar.x = bottombar.width/2
-	bottombar.y = bottombar.height/2 + bg.height + topbar.height
+	bottombar.y = _H - 27
 	localGroup:insert(bottombar)
 	
-	local btn_info = display.newImageRect("images/btn_info68x39.png", 68, 39)
+
+	local btn_info = display.newImageRect("images/btn_info68x39.png", 44, 44)
 	btn_info:setReferencePoint(display.CenterReferencePoint)
 	btn_info.x = bottombar.width/6
 	btn_info.y = bottombar.y
@@ -48,28 +90,6 @@ function new()
 	btn_minis.y = bottombar.y
 	btn_minis.scene = "minis"
 	localGroup:insert(btn_minis)
-	
-	local btn_map = display.newImageRect("images/btn_map68x39.png", 68, 39)
-	btn_map:setReferencePoint(display.CenterReferencePoint)
-	btn_map.x = topbar.width/6
-	btn_map.y = topbar.y
-	btn_map.scene = "map"
-	localGroup:insert(btn_map)
-	
-	local btn_bag = display.newImageRect("images/btn_bag68x39.png", 68, 39)
-	btn_bag:setReferencePoint(display.CenterReferencePoint)
-	btn_bag.x = topbar.width/2
-	btn_bag.y = topbar.y
-	btn_bag.scene = "bag"
-	localGroup:insert(btn_bag)
-	
-	local btn_help = display.newImageRect("images/btn_help68x39.png", 68, 39)
-	btn_help:setReferencePoint(display.CenterReferencePoint)
-	btn_help.x = topbar.width - topbar.width/6
-	btn_help.y = topbar.y
-	btn_help.scene = "help"
-	localGroup:insert(btn_help)
-	
 	
 	local function autoWrappedText(text, font, size, color, width)
 	--print("text: " .. text)
@@ -133,36 +153,39 @@ function new()
 	function changeScene(event)
 		if(event.phase == "ended") then
 			audio.play(click)
-			director:changeScene(event.target.scene)
+			director:changeScene(params,event.target.scene,"fade")
 		end
 	end
 	
 	btn_info:addEventListener("touch", changeScene)
 	btn_hunt:addEventListener("touch", changeScene)
 	btn_minis:addEventListener("touch", changeScene)
-	btn_map:addEventListener("touch", changeScene)
-	btn_bag:addEventListener("touch", changeScene)
-	btn_help:addEventListener("touch", changeScene)
 	
 	local myDescr = autoWrappedText(menuDescr, native.systemFont, 18, {40, 65, 30}, display.contentWidth - 25);
 	myDescr:setReferencePoint(display.CenterReferencePoint)
-	myDescr.x = topbar.width/2
-	myDescr.y = topbar.height + myDescr.height
+	myDescr.x = bottombar.width/2
+	myDescr.y = bottombar.height + myDescr.height
 	localGroup:insert(myDescr)
 	
 	local myInstr = autoWrappedText(menuInstr, native.systemFont, 18, {100, 30, 30}, display.contentWidth - 25);
 	myInstr:setReferencePoint(display.CenterReferencePoint)
-	myInstr.x = topbar.width/2
-	myInstr.y = topbar.height + myDescr.height + myInstr.height/2 + 20
+	myInstr.x = bottombar.width/2
+	myInstr.y = bottombar.height + myDescr.height + myInstr.height/2 + 20
 	localGroup:insert(myInstr)
 
 --need to loop these onto the map
-	local marker = display.newImageRect("images/activity_red20x20.png", 20, 20)
+	local marker = display.newImageRect("images/avatar_orange.png", 64, 44)
 	marker:setReferencePoint(display.CenterReferencePoint)
-	marker.x = 28
+	marker.x = 35
 	marker.y = 230
 	--multichoice until this can be data driven
-	marker.scene = "multichoice"
+	if params.questionType == 3 then
+		marker.scene = "draggable"
+	elseif params.questionType == 2 then
+		marker.scene = "multichoice"
+	elseif params.questionType == 1 then
+		marker.scene = "FIB"
+	end
 	localGroup:insert(marker)
 	marker:addEventListener("touch", changeScene)
 	

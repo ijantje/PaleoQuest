@@ -1,6 +1,26 @@
-_H = display.contentHeight
-_W = display.contentWidth
-local question = 3
+
+module(..., package.seeall)
+
+new = function (params)
+
+-- Parameters
+local qID = "7"
+local qType = "3"
+local qLocation = "12"
+
+if type(params) == "table" then
+	print("It is a table.")
+	qID = params.ID
+	qType = params.questionType
+	qLocation = params.location
+end
+	
+
+--function new()
+	local localGroup = display.newGroup()
+
+print ("Map question passed: "..qID)	
+local question = qID
 -- Load the relevant LuaSocket modules
 local http = require("socket.http")
 local ltn12 = require("ltn12")
@@ -9,7 +29,7 @@ local ltn12 = require("ltn12")
 require "sqlite3"
 
 --set the database path
-local dbpath = system.pathForFile("Quest.sqlite")
+local dbpath = system.pathForFile("tp_quests.sqlite")
 
 --open dbs
 database = sqlite3.open(dbpath)
@@ -23,6 +43,7 @@ end
 
 --get image names
 local sql = "SELECT * FROM type_draggable WHERE question_id = "..question
+print (sql)
 local imageTable = {}
 local skullTable = {}
 local stem
@@ -49,13 +70,14 @@ for i = 1,4 do
 -- Create local file for saving data
 local path = system.pathForFile( imageTable[i], system.DocumentsDirectory )
 myFile = io.open( path, "w+b" ) 
+
 	-- Request remote file and save data to local file
 http.request{
     url = "http://christijandraper.com/coronaImages/"..imageTable[i] ,
     sink = ltn12.sink.file(myFile),
 }
 
-
+print("got here")
  
 end
 
@@ -64,7 +86,7 @@ for i = 1,4 do
 	-- Create four locations to drop photos
 
 	local dropContainer = display.newImageRect(imageTable[i],system.DocumentsDirectory,_W/2.75,_H/6)
-
+localGroup:insert(dropContainer)
 	dropContainer.x = xValue
 	dropContainer.y = yValue
 	--dropContainer:setFillColor(0)
@@ -171,6 +193,7 @@ dragImage = display.newImageRect(skullTable[randomNumber],system.DocumentsDirect
 			randomNumber = 1
 		end
   end
+  localGroup:insert(draggables)
 end
 
 if event then
@@ -214,5 +237,7 @@ buttonGroup.y = _H/3*2.85
 stemLabel = display.newText(stem,30,_H/3*2.5,"Helvetica",16)
 stemLabel:setTextColor(255,255,255)
 
-
+localGroup:insert(buttonGroup)
 button:addEventListener("touch",placePhotos)
+	return localGroup
+end
