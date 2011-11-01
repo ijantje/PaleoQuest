@@ -176,8 +176,8 @@ end
 --need to loop these onto the map
 	local marker = display.newImageRect("images/avatar_orange.png", 64, 44)
 	marker:setReferencePoint(display.CenterReferencePoint)
-	marker.x = 35
-	marker.y = 230
+	marker.x = _W/8*3
+	marker.y = _H/16*3
 	--multichoice until this can be data driven
 	if params.questionType == 3 then
 		marker.scene = "draggable"
