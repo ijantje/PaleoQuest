@@ -2,7 +2,17 @@
 
 module(..., package.seeall)
 
-function new()
+function new(params)
+
+-- create variable to represent hunt as it will be passed from previous screen
+
+local questID
+
+if type(params) == "table" then
+	print("It is a table.")
+	questID = params.questID
+end
+
 	local localGroup = display.newGroup()
 	
 -- include sqlite library
@@ -20,10 +30,6 @@ local function onSystemEvent(event)
 		database:close()
 	end
 end
-
--- create variable to represent hunt as passed from previous screen
-
-	local questID = 1
 
 --get question IDs
 local sql = "SELECT question_id FROM quest_questions WHERE quest_id = "..questID
@@ -178,7 +184,9 @@ end
 	marker:setReferencePoint(display.CenterReferencePoint)
 	marker.x = _W/8*3
 	marker.y = _H/16*3
-	--multichoice until this can be data driven
+	
+	
+	--data driven indicator of question type
 	if params.questionType == 3 then
 		marker.scene = "draggable"
 	elseif params.questionType == 2 then

@@ -118,7 +118,7 @@ function new()
 	function changeScene(event)
 		if(event.phase == "ended") then
 			audio.play(click)
-			director:changeScene(event.target.scene)
+			director:changeScene({questID = 1},event.target.scene)
 		end
 	end
 	
