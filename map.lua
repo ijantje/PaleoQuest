@@ -6,14 +6,11 @@ function new(params)
 
 -- create variable to represent hunt as it will be passed from previous screen
 
-local questID
+local questID = _G.questID
+local userID = _G.userID
+local avatarID = _G.avatarID
 
-if type(params) == "table" then
-	print("It is a table.")
-	questID = params.questID
-end
-
-	local localGroup = display.newGroup()
+local localGroup = display.newGroup()
 	
 -- include sqlite library
 require "sqlite3"
@@ -47,11 +44,10 @@ end
 local sql = "SELECT question_type,question_location_id FROM questions WHERE question_id = "..questionTable[1]
 print (sql)
 params ={
-	ID = questionTable[1]
+	questionID = questionTable[1]
 	}
 for row in database:nrows(sql) do	
 	params.questionType = row.question_type
-	params.location = row.question_location_id
 end
 
 	
