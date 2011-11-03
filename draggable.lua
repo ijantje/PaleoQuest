@@ -3,6 +3,9 @@ module(..., package.seeall)
 
 new = function (params)
 
+local photosPlaced = 0
+local successGroup = display.newGroup()
+successGroup.alpha = 0
 -- Parameters
 local qID = "7"
 local qType = "3"
@@ -18,7 +21,12 @@ end
 
 --function new()
 	local localGroup = display.newGroup()
-
+function changeScene(event)
+		if(event.phase == "ended") then
+			audio.play(click)
+			director:changeScene(event.target.scene,"fade")
+		end
+	end
 print ("Map question passed: "..qID)	
 local question = qID
 -- Load the relevant LuaSocket modules
@@ -136,6 +144,27 @@ function dragPix( event )
 			event.target:removeEventListener("touch",dragPix)
 			system.vibrate()
 			display.getCurrentStage():setFocus(nil)
+			
+			photosPlaced = photosPlaced + 1
+			if photosPlaced == 4 then
+				local win = audio.loadSound("win.wav")
+				audio.play(win)
+				print("4 photos placed")
+				
+				local successMessage = display.newRect(0,0,88,33)
+				successMessage.scene = "map"
+				local messageLabel = display.newText("Return to Hunt ...", successMessage.width/3,0,"Helvetica",13)
+				messageLabel:setTextColor(0,0,0)
+
+				successGroup:insert(successMessage)
+				successGroup:insert(messageLabel)
+				successGroup:setReferencePoint(display.CenterReferencePoint)
+				successGroup.x = _W/2
+				successGroup.y = _H/3*2
+				successGroup.alpha = 1
+				localGroup:insert(successGroup)
+				successMessage:addEventListener("touch",changeScene)
+			end
 
 		end
 
@@ -164,7 +193,9 @@ end
 
 function placePhotos(event)
 
+
 local function setPhotos()
+
  draggables = display.newGroup()
  local randomNumber = math.random(4)
 for i = 1,4 do
@@ -206,8 +237,9 @@ if event then
 			draggables[k]:removeSelf()
 			
 		end
-		
 	end
+	successGroup.alpha = 0
+	photosPlaced = 0
 	xValue = _W/3.75
 	yValue = yValue/1.33
 	setPhotos()
