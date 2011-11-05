@@ -8,8 +8,6 @@ local successGroup = display.newGroup()
 successGroup.alpha = 0
 -- Parameters
 local qID = "7"
-local qType = "3"
-local qLocation = "12"
 
 if type(params) == "table" then
 	print("It is a table.")
