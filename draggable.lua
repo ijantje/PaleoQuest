@@ -11,7 +11,7 @@ local qID = "7"
 
 if type(params) == "table" then
 	print("It is a table.")
-	qID = params.ID
+	qID = _G.questID
 	qType = params.questionType
 	qLocation = params.location
 end

@@ -76,7 +76,7 @@ end
 	btn_info:setReferencePoint(display.CenterReferencePoint)
 	btn_info.x = bottombar.width/6
 	btn_info.y = bottombar.y
-	btn_info.scene = "info"
+	btn_info.scene = "picker"
 	localGroup:insert(btn_info)
 	
 	local btn_hunt = display.newImageRect("images/btn_hunt68x39.png", 68, 39)
@@ -176,7 +176,16 @@ end
 	localGroup:insert(myInstr)
 
 --need to loop these onto the map
-	local marker = display.newImageRect("images/avatar_orange.png", 64, 44)
+	if avatarID == 1 then
+		avatarColor = "blue"
+	elseif avatarID == 2 then
+		avatarColor = "green"
+	elseif avatarID == 3 then
+		avatarColor = "orange"
+	elseif avatarID == 4 then
+		avatarColor = "red"
+	end
+	local marker = display.newImageRect("images/avatar_"..avatarColor..".png", 64, 44)
 	marker:setReferencePoint(display.CenterReferencePoint)
 	marker.x = _W/8*3
 	marker.y = _H/16*3
