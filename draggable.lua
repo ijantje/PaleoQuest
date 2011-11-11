@@ -149,9 +149,9 @@ function dragPix( event )
 				audio.play(win)
 				print("4 photos placed")
 				
-				local successMessage = display.newRect(0,0,88,33)
-				successMessage.scene = "map"
-				local messageLabel = display.newText("Return to Hunt ...", successMessage.width/3,0,"Helvetica",13)
+				local successMessage = display.newRect(0,0,176,33)
+				successMessage.scene = "bag"
+				local messageLabel = display.newText("Return to Hunt ...", successMessage.width/4,0,"Helvetica",13)
 				messageLabel:setTextColor(0,0,0)
 
 				successGroup:insert(successMessage)
