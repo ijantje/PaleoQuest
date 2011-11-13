@@ -1,7 +1,10 @@
 module(..., package.seeall)
 
 display.setStatusBar( display.HiddenStatusBar ) 
-
+_G.questID = nil
+_G.userID = nil
+_G.avatarID = nil
+_G.prog_id = nil
 local tableView = require("tableView")
 local ui = require("ui")
 

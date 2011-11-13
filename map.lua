@@ -37,6 +37,7 @@ local sql = "SELECT prog_id FROM progress WHERE user_id = 1 AND quest_id = "..qu
 for row in user_database:nrows(sql) do
 	prog_id = row.prog_id
 	print ("The progress id is established: "..prog_id)
+	_G.prog_id = row.prog_id
 end
 
 
@@ -46,17 +47,18 @@ local i = 1
 local unavailableQuestions = {}
 for row in user_database:nrows(sql) do
 	unavailableQuestions[i] = row.question_completed
-	print ("The question: "..i..": "..row.question_completed)
+	print ("The question is unavailable: "..i..": "..row.question_completed)
 	i = i+1
 end
 
 
 
 --get question IDs
-local sql = "SELECT question_id FROM quest_questions WHERE quest_id = "..questID.." AND question_id NOT IN ("
+local sql = "SELECT question_id FROM quest_questions WHERE quest_id = "..questID.." AND question_id NOT IN ( "
 i=1
 for k,v in ipairs(unavailableQuestions) do
 	sql = sql..unavailableQuestions[i]..","
+	i=i+1
 end
 sql = string.sub(sql,1,-2)
 sql = sql..")"
