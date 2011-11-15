@@ -7,15 +7,21 @@ local photosPlaced = 0
 local successGroup = display.newGroup()
 successGroup.alpha = 0
 -- Parameters
+local qID = "7"
+local qType = "3"
+local qLocation = "12"
 
 if type(params) == "table" then
-	local	questionID = params.questionID
+	print("It is a table.")
+	qID = params.ID
+	qType = params.questionType
+	qLocation = params.location
 end
 	
 
 --function new()
 	local localGroup = display.newGroup()
-	function changeScene(event)
+function changeScene(event)
 		if(event.phase == "ended") then
 			audio.play(click)
 			director:changeScene(event.target.scene,"fade")
