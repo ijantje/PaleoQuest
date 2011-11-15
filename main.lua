@@ -25,4 +25,4 @@ splash = nil
 director:changeScene("picker")
 end
 
-timer.performWithDelay(3000, loadPicker)
+timer.performWithDelay(7000, loadPicker)
