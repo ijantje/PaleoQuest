@@ -1,17 +1,28 @@
---globals
-_H = display.contentHeight
+--set globals
 _W = display.contentWidth
+_H = display.contentHeight
 
-display.setStatusBar(display.HiddenStatusBar);
+-- load director module file
+local director = require("director");
 
-local director = require("director")
+--Hide status bar
+display.setStatusBar( display.HiddenStatusBar )
 
-local mainGroup = display.newGroup()
+--create variables for images
+local screenBg = display.newImage("images/screenBg.png");
+local splashBg = display.newImage("images/splashScreen.png");
 
-local function main()
-	mainGroup:insert(director.directorView)
-	director:changeScene("picker")
-	return true
+
+--Create background and insert photo
+local splash = display.newGroup();
+
+splash:insert (screenBg)
+splash:insert (splashBg)
+
+function loadPicker()
+splash:removeSelf()
+splash = nil
+director:changeScene("picker")
 end
 
-main()
+timer.performWithDelay(7000, loadPicker)

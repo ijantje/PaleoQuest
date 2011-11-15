@@ -1,4 +1,3 @@
-
 module(..., package.seeall)
 
 new = function (params)
@@ -7,15 +6,11 @@ local photosPlaced = 0
 local successGroup = display.newGroup()
 successGroup.alpha = 0
 -- Parameters
-local qID = "7"
-local qType = "3"
-local qLocation = "12"
+local question_ID
 
 if type(params) == "table" then
 	print("It is a table.")
-	qID = params.ID
-	qType = params.questionType
-	qLocation = params.location
+	question_ID = params.questionID
 end
 	
 
@@ -27,8 +22,8 @@ function changeScene(event)
 			director:changeScene(event.target.scene,"fade")
 		end
 	end
-print ("Map question passed: "..qID)	
-local question = qID
+print ("Map question passed: "..question_ID)	
+
 -- Load the relevant LuaSocket modules
 local http = require("socket.http")
 local ltn12 = require("ltn12")
@@ -50,7 +45,7 @@ local function onSystemEvent(event)
 end
 
 --get image names
-local sql = "SELECT * FROM type_draggable WHERE question_id = "..question
+local sql = "SELECT * FROM type_draggable WHERE question_id = "..question_ID
 print (sql)
 local imageTable = {}
 local skullTable = {}
@@ -146,14 +141,35 @@ function dragPix( event )
 			display.getCurrentStage():setFocus(nil)
 			
 			photosPlaced = photosPlaced + 1
+
+-- Check for success in matching parts
 			if photosPlaced == 4 then
 				local win = audio.loadSound("win.wav")
 				audio.play(win)
 				print("4 photos placed")
 				
-				local successMessage = display.newRect(0,0,88,33)
-				successMessage.scene = "map"
-				local messageLabel = display.newText("Return to Hunt ...", successMessage.width/3,0,"Helvetica",13)
+-- Mark progress for this question in database
+				--set the database path
+					local user_dbpath = system.pathForFile("tp_user.sqlite")
+
+				--open dbs
+					local database2 = sqlite3.open(user_dbpath)
+
+				--handle the applicationExit to close the db
+					local function onSystemEvent(event)
+						if(event.type == "applicationExit") then
+							database2:close()
+						end
+					end
+
+-- Submit progress to database
+					local sql = "INSERT INTO questions_completed (progress_id, question_completed) VALUES (".._G.prog_id..","..question_ID..")"
+					database2:exec(sql)
+					print (sql)
+
+				local successMessage = display.newRect(0,0,176,33)
+				successMessage.scene = "bag"
+				local messageLabel = display.newText("Return to Hunt ...", successMessage.width/4,0,"Helvetica",13)
 				messageLabel:setTextColor(0,0,0)
 
 				successGroup:insert(successMessage)

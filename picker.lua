@@ -1,7 +1,10 @@
 module(..., package.seeall)
 
 display.setStatusBar( display.HiddenStatusBar ) 
-
+_G.questID = nil
+_G.userID = nil
+_G.avatarID = nil
+_G.prog_id = nil
 local tableView = require("tableView")
 local ui = require("ui")
 
@@ -77,14 +80,15 @@ local q = 1
 
 for row in db:nrows(sqlQuery) do 
 	data[q] = {}
-	data[q].qTitle = row.title
-	data[q].qDesc = row.description
-	data[q].qLoc = row.location
-	data[q].qDiff = row.difficulty
-	data[q].qLearn = row.learningOutcomes
-	data[q].qTime = row.time
-	data[q].qTopic = row.topic
-	data[q].qPoints = row.points
+	--Not sure if this fits: data[q].id = row.quest_id
+	data[q].name = row.name
+	--data[q].qDesc = row.description
+	--data[q].qLoc = row.location
+	data[q].difficulty = row.difficulty
+	--data[q].qLearn = row.learningOutcomes
+	--data[q].time = row.time
+	--data[q].topic = row.topic
+	data[q].point_value = row.point_value
 	q = q + 1
  end
 
@@ -152,21 +156,21 @@ function listButtonRelease( event )
 				print(self.id)
 		questID = id
 				
-		dTitle = data[id].qTitle
-		dPoints = data[id].qPoints
-		dSubtitle = data[id].qDesc
-		dLearn = data[id].qLearn
-		dTime = data[id].qTime
-		dTopic = data[id].qTopic
-		dLoc = data[id].qLoc
-		dDiff = data[id].qDiff
+		dTitle = data[id].name
+		dPoints = data[id].point_value
+	--	dSubtitle = data[id].description
+	--	dLearn = data[id].qLearn
+	--	dTime = data[id].qTime
+	--	dTopic = data[id].qTopic
+	--	dLoc = data[id].qLoc
+		dDiff = data[id].difficulty
  
 		dText1 = autoWrappedText(dTitle , native.systemFont, 14, {40,65,30}, display.contentWidth - 24) 
 		detailScreen:insert(dText1)
 		dText1.x = 12
 		dText1.y = 0 + dText1.height + topBoundary
 		
-		dText2 = autoWrappedText(dSubtitle, native.systemFont, 12, {80,115,165}, display.contentWidth - 24) 
+	--[[	dText2 = autoWrappedText(dSubtitle, native.systemFont, 12, {80,115,165}, display.contentWidth - 24) 
 		detailScreen:insert(dText2)
 		dText2.x = 12
 		dText2.y = dText1.y + dText1.height + 12
@@ -195,7 +199,7 @@ function listButtonRelease( event )
 		dText7:setTextColor(40,60,85)
 		dText7.x = dText7.width/2 + 12
 		dText7.y = dText6.y + dText6.height + dText7.height/2 + 12
-
+--]]
 		avatar_text.text = "Select a guide: You guide is currently "..avatarID_desc
 		avatar_text:setTextColor(80,115,165)
 		avatar_text.x = display.contentWidth/2
@@ -229,9 +233,11 @@ end
 
 function startBtnRelease(event)
 	print("start button released")
-	director:changeScene(map)
+	_G.questID = questID
+	_G.userID = 1
+	_G.avatarID = avatarID
+	director:changeScene("map")
 end
-
 function avatarChooserBlue(event)
 	print("Click")
 	avatarID = 1
@@ -264,6 +270,7 @@ end
 function new()
 
 	localGroup = display.newGroup()
+	print("Got to beginning of new function")
 	
 	--Add a background
 	background = display.newImage("images/screenBg.png")
@@ -340,21 +347,20 @@ function new()
 		img.y = math.floor(img.height/2)
 		]]
 	
-		title =  display.newText( row.qTitle, 0, 0, native.systemFontBold, 14 )
+		title =  display.newText( row.name, 0, 0, native.systemFontBold, 14 )
 		title:setTextColor(40, 65, 30)
 		g:insert(title)
 		title.x = title.width/2 + 6
 		title.y = 15
 		
-		
-		points =  display.newText( "Points: " ..row.qPoints, 0, 0, native.systemFontBold, 10 )
+		points =  display.newText( "Points: " ..row.point_value, 0, 0, native.systemFontBold, 10 )
 		points:setTextColor(100, 30, 30)
 		g:insert(points)
 		points.x = display.contentWidth - points.width/2
 		points.y = 15
 
 	
-		subtitle = autoWrappedText(row.qDesc, native.systemFont, 12, {0, 0, 0}, display.contentWidth - 24)
+		subtitle = autoWrappedText(row.name, native.systemFont, 12, {0, 0, 0}, display.contentWidth - 24)
 		--subtitle:setTextColor(255,255,255)
 		g:insert(subtitle)
 		subtitle.x = 12
@@ -364,6 +370,7 @@ function new()
 		return g
 	end
 	}
+	
 	localGroup:insert(myList)
 	
 	-- Add nav bar
@@ -371,19 +378,17 @@ function new()
 		default = "images/navBar.png",
 		onRelease = scrollToTop
 	}
-	
 	navBar.x = display.contentWidth*.5
+	
 	navBar.y = math.floor(display.screenOriginY + navBar.height*0.5)
 	
 	localGroup:insert(navBar)
-	
-	
+
 	--Add nav header
 	local navHeader = display.newText("Pick an expedition", 0, 0, native.systemFontBold, 16)
 	navHeader:setTextColor(255, 255, 255)
 	navHeader.x = display.contentWidth*.5
 	navHeader.y = navBar.y
-	
 	localGroup:insert(navHeader)
 	
 	--Setup the back button
@@ -392,7 +397,7 @@ function new()
 		over = "images/backButton_over.png", 
 		onRelease = backBtnRelease
 	}
-	
+
 	backBtn.x = 0 - math.floor(backBtn.width/2) - backBtn.width
 	backBtn.y = navBar.y 
 	backBtn.alpha = 0
@@ -411,6 +416,7 @@ function new()
 	startBtn.alpha = 0
 	
 	localGroup:insert(startBtn)
+	
 
 	return localGroup
 end

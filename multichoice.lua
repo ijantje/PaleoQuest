@@ -2,7 +2,12 @@
 
 module(..., package.seeall)
 
-function new()
+function new(params)
+if type(params) == "table" then
+	print ("Param table exists")
+	question_ID = params.questionID
+end
+
 	local localGroup = display.newGroup()
 	
 	local click = audio.loadSound("click.wav")
@@ -10,67 +15,11 @@ function new()
 	local menuDescr = "Multiple choice activity"
 	local menuInstr = "What is in the paleontologist's hand?"
 	
-	local topbar = display.newImageRect("images/topbar320x54.png", 320, 54)
-	topbar:setReferencePoint(display.CenterReferencePoint)
-	topbar.x = topbar.width/2
-	topbar.y = topbar.height/2
-	localGroup:insert(topbar)
-	
 	local bg = display.newImageRect("images/bg320x372.png", 320, 372)
 	bg:setReferencePoint(display.CenterReferencePoint)
 	bg.x = bg.width/2
-	bg.y = bg.height/2 + topbar.height
+	bg.y = bg.height/2
 	localGroup:insert(bg)
-	
-	local bottombar = display.newImageRect("images/bottombar320x54.png", 320, 54)
-	bottombar:setReferencePoint(display.CenterReferencePoint)
-	bottombar.x = bottombar.width/2
-	bottombar.y = bottombar.height/2 + bg.height + topbar.height
-	localGroup:insert(bottombar)
-	
-	local btn_info = display.newImageRect("images/btn_info68x39.png", 68, 39)
-	btn_info:setReferencePoint(display.CenterReferencePoint)
-	btn_info.x = bottombar.width/6
-	btn_info.y = bottombar.y
-	btn_info.scene = "info"
-	localGroup:insert(btn_info)
-	
-	local btn_hunt = display.newImageRect("images/btn_hunt68x39.png", 68, 39)
-	btn_hunt:setReferencePoint(display.CenterReferencePoint)
-	btn_hunt.x = bottombar.width/2
-	btn_hunt.y = bottombar.y
-	btn_hunt.scene = "hunt"
-	localGroup:insert(btn_hunt)
-	
-	local btn_minis = display.newImageRect("images/btn_minis68x39.png", 68, 39)
-	btn_minis:setReferencePoint(display.CenterReferencePoint)
-	btn_minis.x = bottombar.width - bottombar.width/6
-	btn_minis.y = bottombar.y
-	btn_minis.scene = "minis"
-	localGroup:insert(btn_minis)
-	
-	local btn_map = display.newImageRect("images/btn_map68x39.png", 68, 39)
-	btn_map:setReferencePoint(display.CenterReferencePoint)
-	btn_map.x = topbar.width/6
-	btn_map.y = topbar.y
-	btn_map.scene = "map"
-	localGroup:insert(btn_map)
-	
-	local btn_bag = display.newImageRect("images/btn_bag68x39.png", 68, 39)
-	btn_bag:setReferencePoint(display.CenterReferencePoint)
-	btn_bag.x = topbar.width/2
-	btn_bag.y = topbar.y
-	btn_bag.scene = "bag"
-	localGroup:insert(btn_bag)
-	
-	local btn_help = display.newImageRect("images/btn_help68x39.png", 68, 39)
-	btn_help:setReferencePoint(display.CenterReferencePoint)
-	btn_help.x = topbar.width - topbar.width/6
-	btn_help.y = topbar.y
-	btn_help.scene = "help"
-	localGroup:insert(btn_help)
-	
-	
 	
 	
 	local function autoWrappedText(text, font, size, color, width)
@@ -140,23 +89,16 @@ function new()
 		end
 	end
 	
-	btn_info:addEventListener("touch", changeScene)
-	btn_hunt:addEventListener("touch", changeScene)
-	btn_minis:addEventListener("touch", changeScene)
-	btn_map:addEventListener("touch", changeScene)
-	btn_bag:addEventListener("touch", changeScene)
-	btn_help:addEventListener("touch", changeScene)
-	
 	local myDescr = autoWrappedText(menuDescr, native.systemFont, 18, {40, 65, 30}, display.contentWidth - 25);
 	myDescr:setReferencePoint(display.CenterReferencePoint)
-	myDescr.x = topbar.width/2
-	myDescr.y = topbar.height + myDescr.height
+	myDescr.x = bg.width/2
+	myDescr.y = myDescr.height
 	localGroup:insert(myDescr)
 	
 	local myInstr = autoWrappedText(menuInstr, native.systemFont, 18, {100, 30, 30}, display.contentWidth - 25);
 	myInstr:setReferencePoint(display.CenterReferencePoint)
-	myInstr.x = topbar.width/2
-	myInstr.y = topbar.height + myDescr.height + myInstr.height/2 + 20
+	myInstr.x = bg.width/2
+	myInstr.y = myDescr.height + myInstr.height/2 + 20
 	localGroup:insert(myInstr)
 	
 	--copy your code here
@@ -173,20 +115,54 @@ function new()
 	print(event.target.id)
 	if(correct == event.target.id) then
 		audio.play(correct_wav)
+		-- Mark progress for this question in database
+				--set the database path
+					local user_dbpath = system.pathForFile("tp_user.sqlite")
+
+				--open dbs
+					local database2 = sqlite3.open(user_dbpath)
+
+				--handle the applicationExit to close the db
+					local function onSystemEvent(event)
+						if(event.type == "applicationExit") then
+							database2:close()
+						end
+					end
+
+-- Submit progress to database
+					local sql = "INSERT INTO questions_completed (progress_id, question_completed) VALUES (".._G.prog_id..","..question_ID..")"
+					database2:exec(sql)
+					print (sql)
+
+				local successMessage = display.newRect(0,0,176,33)
+				successMessage.scene = "bag"
+				local messageLabel = display.newText("Return to Hunt ...", successMessage.width/4,0,"Helvetica",13)
+				messageLabel:setTextColor(0,0,0)
+
+				successGroup:insert(successMessage)
+				successGroup:insert(messageLabel)
+				successGroup:setReferencePoint(display.CenterReferencePoint)
+				successGroup.x = _W/2
+				successGroup.y = _H/3*2
+				successGroup.alpha = 1
+				localGroup:insert(successGroup)
+				successMessage:addEventListener("touch",changeScene)
 	end
 	if(correct ~= event.target.id) then
 		audio.play(incorrect_wav)
 	end
 end
 
+
 	--loop through each item in the array to: (a) loop through the table fed as an argument to load the sound, and (b) create the button 
 	local function makeBtns(btnList,btnImg,layout,groupXPos,groupYPos)
+		
 		--first, let's place all the buttons inside a button group, so we can move them together
 		local thisBtnGroup = display.newGroup();
 		for index,value in ipairs(btnList) do 
-			local img = btnImg 
+			local img = btnImg
 			local thisBtn = ui.newButton{
-				defaultSrc = img, defaultX = 200, defaultY = 50,
+				default = img, defaultX = 200, defaultY = 50,
 				overSrc = img, overX = 180, overY = 50,
 				onPress = btnEventHandler,
 				text = value,

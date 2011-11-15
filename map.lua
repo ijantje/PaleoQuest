@@ -15,24 +15,57 @@ local localGroup = display.newGroup()
 -- include sqlite library
 require "sqlite3"
 
---set the database path
+--set the database paths
 local dbpath = system.pathForFile("tp_quests.sqlite")
+local dbpath2 = system.pathForFile("tp_user.sqlite")
 
 --open dbs
 database = sqlite3.open(dbpath)
+user_database = sqlite3.open(dbpath2)
 
 --handle the applicationExit to close the db
 local function onSystemEvent(event)
 	if(event.type == "applicationExit") then
 		database:close()
+		user_database:close()
 	end
 end
+local prog_id
+
+-- Find the user's progress for this quest
+local sql = "SELECT prog_id FROM progress WHERE user_id = 1 AND quest_id = "..questID
+for row in user_database:nrows(sql) do
+	prog_id = row.prog_id
+	print ("The progress id is established: "..prog_id)
+	_G.prog_id = row.prog_id
+end
+
+
+--get completed question IDs
+sql = "SELECT question_completed FROM questions_completed WHERE progress_id = "..prog_id
+local i = 1
+local unavailableQuestions = {}
+for row in user_database:nrows(sql) do
+	unavailableQuestions[i] = row.question_completed
+	print ("The question is unavailable: "..i..": "..row.question_completed)
+	i = i+1
+end
+
+
 
 --get question IDs
-local sql = "SELECT question_id FROM quest_questions WHERE quest_id = "..questID
-print (sql)
+local sql = "SELECT question_id FROM quest_questions WHERE quest_id = "..questID.." AND question_id NOT IN ( "
+i=1
+for k,v in ipairs(unavailableQuestions) do
+	sql = sql..unavailableQuestions[i]..","
+	i=i+1
+end
+sql = string.sub(sql,1,-2)
+sql = sql..")"
+print (sql.." Minus the last comma")
+
+i=1
 local questionTable = {}
-local i=1
 for row in database:nrows(sql) do	
 	questionTable[i] = row.question_id
 	print(questionTable[i])
@@ -40,6 +73,12 @@ for row in database:nrows(sql) do
 end
 
 --get question information
+-- Find out which questions remain to be completed from the quest
+
+
+-- Choose which question to deliver
+
+
 
 local sql = "SELECT question_type,question_location_id FROM questions WHERE question_id = "..questionTable[1]
 print (sql)
@@ -48,6 +87,7 @@ params ={
 	}
 for row in database:nrows(sql) do	
 	params.questionType = row.question_type
+	params.question_location = row.question_location_id
 end
 
 	
@@ -72,26 +112,26 @@ end
 	localGroup:insert(bottombar)
 	
 
-	local btn_info = display.newImageRect("images/btn_info68x39.png", 44, 44)
-	btn_info:setReferencePoint(display.CenterReferencePoint)
-	btn_info.x = bottombar.width/6
-	btn_info.y = bottombar.y
-	btn_info.scene = "info"
-	localGroup:insert(btn_info)
+	local btn_picker = display.newImageRect("images/btn_picker44x44.png", 44, 44)
+	btn_picker:setReferencePoint(display.CenterReferencePoint)
+	btn_picker.x = bottombar.width/6
+	btn_picker.y = bottombar.y
+	btn_picker.scene = "picker"
+	localGroup:insert(btn_picker)
 	
-	local btn_hunt = display.newImageRect("images/btn_hunt68x39.png", 68, 39)
-	btn_hunt:setReferencePoint(display.CenterReferencePoint)
-	btn_hunt.x = bottombar.width/2
-	btn_hunt.y = bottombar.y
-	btn_hunt.scene = "hunt"
-	localGroup:insert(btn_hunt)
+	local btn_map= display.newImageRect("images/btn_map44x44.png", 44,44)
+	btn_map:setReferencePoint(display.CenterReferencePoint)
+	btn_map.x = bottombar.width/2
+	btn_map.y = bottombar.y
+	btn_map.scene = "map"
+	localGroup:insert(btn_map)
 	
-	local btn_minis = display.newImageRect("images/btn_minis68x39.png", 68, 39)
-	btn_minis:setReferencePoint(display.CenterReferencePoint)
-	btn_minis.x = bottombar.width - bottombar.width/6
-	btn_minis.y = bottombar.y
-	btn_minis.scene = "minis"
-	localGroup:insert(btn_minis)
+	local btn_bag = display.newImageRect("images/btn_bag44X44.png", 44,44)
+	btn_bag:setReferencePoint(display.CenterReferencePoint)
+	btn_bag.x = bottombar.width - bottombar.width/6
+	btn_bag.y = bottombar.y
+	btn_bag.scene = "bag"
+	localGroup:insert(btn_bag)
 	
 	local function autoWrappedText(text, font, size, color, width)
 	--print("text: " .. text)
@@ -159,9 +199,9 @@ end
 		end
 	end
 	
-	btn_info:addEventListener("touch", changeScene)
-	btn_hunt:addEventListener("touch", changeScene)
-	btn_minis:addEventListener("touch", changeScene)
+	btn_picker:addEventListener("touch", changeScene)
+	btn_map:addEventListener("touch", changeScene)
+	btn_bag:addEventListener("touch", changeScene)
 	
 	local myDescr = autoWrappedText(menuDescr, native.systemFont, 18, {40, 65, 30}, display.contentWidth - 25);
 	myDescr:setReferencePoint(display.CenterReferencePoint)
@@ -176,10 +216,65 @@ end
 	localGroup:insert(myInstr)
 
 --need to loop these onto the map
-	local marker = display.newImageRect("images/avatar_orange.png", 64, 44)
+	if avatarID == 1 then
+		avatarColor = "blue"
+	elseif avatarID == 2 then
+		avatarColor = "green"
+	elseif avatarID == 3 then
+		avatarColor = "orange"
+	elseif avatarID == 4 then
+		avatarColor = "red"
+	end
+	
+	local locationXDivisor
+	local locationYDivisor
+	if params.question_location == 1 or params.question_location == 5 or (params.question_location == 9) then
+		locationXDivisor = 1
+		if (params.question_location == 1) then
+			locationYDivisor = 3
+		elseif (params.question_location == 5) then
+			locationYDivisor = 5
+		else
+			locationYDivisor = 7
+		end
+	elseif (params.question_location == 2) or (params.question_location == 6) or (params.question_location == 10) then
+		locationXDivisor = 3
+			
+		if (params.question_location == 2) then
+			locationYDivisor = 3
+		elseif (params.question_location == 6) then
+			locationYDivisor = 5
+		else
+			locationYDivisor = 7
+		end
+	elseif (params.question_location == 3) or (params.question_location == 7) or(params.question_location == 11) then
+		locationXDivisor = 5
+			
+		if (params.question_location == 3) then
+			locationYDivisor = 3
+		elseif (params.question_location == 7) then
+			locationYDivisor = 5
+		else
+			locationYDivisor = 7
+		
+		end
+	else
+		locationXDivisor = 7
+			
+		if (params.question_location == 4) then
+			locationYDivisor = 3
+		elseif (params.question_location == 8) then
+			locationYDivisor = 5
+		else
+			locationYDivisor = 7
+		end
+	end
+	print("Location X "..locationXDivisor)
+	print("Location Y "..locationYDivisor)
+	local marker = display.newImageRect("images/avatar_"..avatarColor..".png", 64, 44)
 	marker:setReferencePoint(display.CenterReferencePoint)
-	marker.x = _W/8*3
-	marker.y = _H/16*3
+	marker.x = _W/8*locationXDivisor
+	marker.y = _H/16*locationYDivisor
 	
 	
 	--data driven indicator of question type
