@@ -1,28 +1,67 @@
---set globals
-_W = display.contentWidth
-_H = display.contentHeight
-
--- load director module file
-local director = require("director");
-
---Hide status bar
 display.setStatusBar( display.HiddenStatusBar )
 
---create variables for images
-local screenBg = display.newImage("images/screenBg.png");
-local splashBg = display.newImage("images/splashScreen.png");
+--====================================================================--
+-- DIRECTOR CLASS SAMPLE
+--====================================================================--
 
+--[[
 
---Create background and insert photo
-local splash = display.newGroup();
+ - Version: 1.3
+ - Made by Ricardo Rauber Pereira @ 2010
+ - Blog: http://rauberlabs.blogspot.com/
+ - Mail: ricardorauber@gmail.com
 
-splash:insert (screenBg)
-splash:insert (splashBg)
+******************
+ - INFORMATION
+******************
 
-function loadPicker()
-splash:removeSelf()
-splash = nil
-director:changeScene("picker")
+  - This is a little sample of what Director Class does.
+  - If you like Director Class, please help us donating at my blog, so I could
+	keep doing it for free. http://rauberlabs.blogspot.com/
+
+--]]
+
+--====================================================================--
+-- IMPORT DIRECTOR CLASS
+--====================================================================--
+
+local director = require("director")
+
+--====================================================================--
+-- CREATE A MAIN GROUP
+--====================================================================--
+
+local mainGroup = display.newGroup()
+
+--====================================================================--
+-- MAIN FUNCTION
+--====================================================================--
+
+local main = function ()
+	
+	------------------
+	-- Add the group from director class
+	------------------
+	
+	mainGroup:insert(director.directorView)
+	
+	------------------
+	-- Change scene without effects
+	------------------
+	
+	director:changeScene("menu")
+	
+	------------------
+	-- Return
+	------------------
+	
+	return true
 end
 
-timer.performWithDelay(7000, loadPicker)
+--====================================================================--
+-- BEGIN
+--====================================================================--
+
+main()
+
+-- It's that easy! :-)
