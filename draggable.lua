@@ -19,7 +19,7 @@ end
 function changeScene(event)
 		if(event.phase == "ended") then
 			audio.play(click)
-			director:changeScene(event.target.scene,"fade")
+			director:changeScene({correctAnswered = question_ID},event.target.scene,"fade")
 		end
 	end
 print ("Map question passed: "..question_ID)	
