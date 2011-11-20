@@ -1,5 +1,5 @@
 --map screen
-
+print ("This is _H: ".._H)
 module(..., package.seeall)
 
 function new(params)

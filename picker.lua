@@ -1,7 +1,6 @@
 module(..., package.seeall)
 
-display.setStatusBar( display.HiddenStatusBar ) 
-
+print("This in _H in picker: ".._H)
 local tableView = require("tableView")
 local ui = require("ui")
 
@@ -51,6 +50,9 @@ local a_red
 questID = 0
 avatarID = 1
 userID = 1
+
+_G.userID = userID
+
 
 local topBoundary = display.screenOriginY + 40
 local bottomBoundary = display.screenOriginY + 0
@@ -229,6 +231,8 @@ end
 
 function startBtnRelease(event)
 	print("start button released")
+	_G.questID = questID
+	_G.avatarID = avatarID
 	director:changeScene("map") --open map.lua file
 end
 

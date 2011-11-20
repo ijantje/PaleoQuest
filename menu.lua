@@ -1,9 +1,4 @@
 module(..., package.seeall)
-
---set globals
-_W = display.contentWidth
-_H = display.contentHeight
-
 -- load director module file
 local director = require("director");
 
@@ -70,7 +65,7 @@ function loadPicker()
 splash:removeSelf()
 splash = nil
 director:changeScene("Start")
-print("Splash screen terminated handed off to picker")
+print("Splash screen terminated handed off to picker" .. _H .. _W)
 end
 
 timer.performWithDelay(4000, loadPicker)
