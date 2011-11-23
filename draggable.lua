@@ -164,7 +164,7 @@ function dragPix( event )
 
 -- Submit progress to database
 					local sql = "INSERT INTO questions_completed (progress_id, question_completed) VALUES (".._G.prog_id..","..question_ID..")"
-					--database2:exec(sql)
+					database2:exec(sql)
 					print (sql)
 
 				local successMessage = display.newRect(0,0,176,33)
