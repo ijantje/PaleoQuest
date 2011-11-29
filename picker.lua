@@ -47,6 +47,10 @@ local a_blue
 local a_green
 local a_orange
 local a_red
+
+local rexHello = audio.loadSound("rexHello.wav")
+local spikeHello = audio.loadSound("spikeHello.wav")
+
 --change
 
 questID = 0
@@ -239,6 +243,7 @@ function avatarChooserBlue(event)
 	avatarID_desc = "Rex"
 	avatar_text:setTextColor(80,115,165)
 	avatar_text.text = "Select a guide: You guide is named "..avatarID_desc
+	audio.play(rexHello)
 end
 function avatarChooserGreen(event)
 	print("Click")
@@ -246,6 +251,7 @@ function avatarChooserGreen(event)
 	avatarID_desc = "Spike"
 	avatar_text:setTextColor(90,145,70)
 	avatar_text.text = "Select a guide: You guide is named "..avatarID_desc
+	audio.play(spikeHello)
 end
 function avatarChooserOrange(event)
 	print("Click")
