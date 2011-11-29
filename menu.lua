@@ -1,9 +1,5 @@
 module(..., package.seeall)
 
---set globals
-_W = display.contentWidth
-_H = display.contentHeight
-
 -- load director module file
 local director = require("director");
 
@@ -27,7 +23,6 @@ local splashBg = display.newImage("images/splashScreen.png");
 
 
 
-
 --Create background and insert photo
 local splash = display.newGroup();
 
@@ -35,8 +30,9 @@ splash:insert (screenBg)
 splash:insert (splashBg)
 localGroup:insert(splash)
 
+--AUDIO TURNED OFF FOR NOW
 --play audio theme
-audio.play(theme)
+--audio.play(theme)
 
 --local bg = display.newGroup();
 --bg:insert(screenBg);
@@ -64,16 +60,16 @@ end
 startBtn:addEventListener("touch", begin)
 ]]
 
-
-
 function loadPicker()
 splash:removeSelf()
 splash = nil
-director:changeScene("Start")
-print("Splash screen terminated handed off to picker")
+
+--CHANGED TO PICKER TO SPEED DEVELOPMENT
+director:changeScene("picker")
+print("Splash screen terminated handed off to picker" .. _H .. _W)
 end
 
-timer.performWithDelay(4000, loadPicker)
+timer.performWithDelay(1000, loadPicker)
 
 return localGroup
 end

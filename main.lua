@@ -1,3 +1,7 @@
+--set globals
+_W = display.contentWidth
+_H = display.contentHeight
+
 display.setStatusBar( display.HiddenStatusBar )
 
 --====================================================================--
