@@ -237,7 +237,6 @@ askQuestion.y = 75
 ----------------------------------------
 
 answerBtn:addEventListener( "touch", answerVerify )
---[[
+
 return localGroup
 end
-]]
