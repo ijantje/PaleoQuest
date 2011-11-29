@@ -2,16 +2,20 @@
 
 module(..., package.seeall)
 
-new = function (params)
+
 
 local questionDescription
 local qID
 local correct
 local choices
 
+new = function (params)
+
 if type(params) == "table" then
 	qID = params.questionID
 end
+
+print(qID)
 
 localGroup = display.newGroup()
 
@@ -23,7 +27,7 @@ local ui = require("ui")
 require "sqlite3"
 
 --set the database path 
-local path = system.pathForFile("tp_quests.sqlite",system.ResourceDirectory)
+local path = system.pathForFile("tp_quests.sqlite")
 
 --open dbs
 db = sqlite3.open(path)
@@ -47,6 +51,7 @@ for row in db:nrows(sqlQuery) do
  end
  
  print(questionDescription)
+ print(choices[1]..", "..choices[2]..", "..choices[3]..", "..choices[4])
 
 
 local correct_wav = audio.loadSound("correct.wav")
@@ -128,13 +133,16 @@ end
 local function makeBtns(btnList,btnImg,layout,groupXPos,groupYPos)
 	--first, let's place all the buttons inside a button group, so we can move them together
 	local thisBtnGroup = display.newGroup();
-	for index,value in ipairs(btnList) do 
+	for i=1,#btnList do 
+		print(btnList[i])
+		print(#btnList)
 		local img = btnImg 
+		--This is where it breaks
 		local thisBtn = ui.newButton{
 			defaultSrc = img, defaultX = 200, defaultY = 50,
 			overSrc = img, overX = 180, overY = 50,
 			onPress = btnEventHandler,
-			text = value,
+			text = btnList[i],
 			size = 14
 		}
 		thisBtn.id = value
@@ -151,14 +159,13 @@ local function makeBtns(btnList,btnImg,layout,groupXPos,groupYPos)
 end
 
 
-
-	
 	local myDescr = autoWrappedText(questionDescription, native.systemFont, 20, {210, 170, 100}, display.contentWidth);
 	myDescr.x = 10
 	myDescr.y = 75
 	localGroup:insert(myDescr)
 	
-	local myChoices = makeBtns(choices,"images/btn_bg.png","vertical",_W/2,250)
+	
+	local myChoices = makeBtns(choices,"images/btn_choice.png","vertical",_W/2,250)
 	localGroup:insert(myChoices)
 
 	return localGroup
