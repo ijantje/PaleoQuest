@@ -1,5 +1,8 @@
 display.setStatusBar( display.HiddenStatusBar )
 
+_H = display.contentHeight
+_W = display.contentWidth
+
 --====================================================================--
 -- DIRECTOR CLASS SAMPLE
 --====================================================================--

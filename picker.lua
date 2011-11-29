@@ -53,9 +53,9 @@ local spikeHello = audio.loadSound("spikeHello.wav")
 
 --change
 
-questID = 0
-avatarID = 1
-userID = 1
+local questID = 0
+local avatarID = 1
+_G.userID = 1
 
 local topBoundary = display.screenOriginY + 40
 local bottomBoundary = display.screenOriginY + 0
@@ -234,6 +234,8 @@ end
 
 function startBtnRelease(event)
 	print("start button released")
+	_G.avatarID = avatarID
+	_G.questID = questID
 	director:changeScene("map") --open map.lua file
 end
 

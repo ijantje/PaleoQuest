@@ -2,22 +2,19 @@
 
 module(..., package.seeall)
 
---init globals
-_H = display.contentHeight;
-_W = display.contentWidth;
+new = function (params)
 
 local questionDescription
-local qID = 1
+local qID
 local correct
 local choices
-
---[[
-function new(params)
 
 if type(params) == "table" then
 	qID = params.questionID
 end
-]]
+
+localGroup = display.newGroup()
+
 
 --import the ui file to create buttons
 local ui = require("ui")
@@ -119,8 +116,8 @@ local btnEventHandler = function (event)
 	print(event.target.id)
 	if(correct == event.target.id) then
 		audio.play(correct_wav)
-		local params = {correctAnswered = qID}
-		director:changeScene(params, "bag")
+		--local params = {correctAnswered = qID}
+		--director:changeScene(params, "bag")
 	end
 	if(correct ~= event.target.id) then
 		audio.play(incorrect_wav)
@@ -153,10 +150,9 @@ local function makeBtns(btnList,btnImg,layout,groupXPos,groupYPos)
 	return thisBtnGroup
 end
 
-function new()
 
-	localGroup = display.newGroup()
 
+	
 	local myDescr = autoWrappedText(questionDescription, native.systemFont, 20, {210, 170, 100}, display.contentWidth);
 	myDescr.x = 10
 	myDescr.y = 75
