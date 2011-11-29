@@ -96,7 +96,7 @@ end
 
 	local click = audio.loadSound("click.wav")
 	
-	local menuDescr = " "
+	local menuDescr = "Well Done! Now meet me here."
 	local menuInstr = " "
 	
 	local bg = display.newImageRect("images/map.png", 320, 372)
@@ -203,16 +203,12 @@ end
 	btn_map:addEventListener("touch", changeScene)
 	btn_bag:addEventListener("touch", changeScene)
 	
-	local myDescr = autoWrappedText(menuDescr, native.systemFont, 18, {40, 65, 30}, display.contentWidth - 25);
-	myDescr:setReferencePoint(display.CenterReferencePoint)
-	myDescr.x = bottombar.width/2
-	myDescr.y = bottombar.height + myDescr.height
-	localGroup:insert(myDescr)
+	
 	
 	local myInstr = autoWrappedText(menuInstr, native.systemFont, 18, {100, 30, 30}, display.contentWidth - 25);
 	myInstr:setReferencePoint(display.CenterReferencePoint)
 	myInstr.x = bottombar.width/2
-	myInstr.y = bottombar.height + myDescr.height + myInstr.height/2 + 20
+	myInstr.y = bottombar.height + myInstr.height/2 + 20
 	localGroup:insert(myInstr)
 
 --need to loop these onto the map
@@ -276,6 +272,22 @@ end
 	marker.x = _W/8*locationXDivisor
 	marker.y = _H/16*locationYDivisor
 	
+	local myDescr = autoWrappedText(menuDescr, native.systemFont, 14, {0,0,0}, display.contentWidth/3);
+	myDescr:setReferencePoint(display.CenterReferencePoint)
+	
+	myDescr.y = marker.y + (myDescr.height)
+	local wordBalloon
+	if (locationXDivisor > 4) then
+		myDescr.x = marker.x - (myDescr.width/2)
+		wordBalloon = display.newRoundedRect(marker.x-myDescr.width-10,marker.y+15,myDescr.width*1.2,myDescr.height*1.4,4)
+	else 
+		myDescr.x = marker.x + (myDescr.width/2+10)
+		wordBalloon = display.newRoundedRect(marker.x,marker.y+15,myDescr.width*1.2,myDescr.height*1.2,4)
+	end
+	
+	
+	localGroup:insert(wordBalloon)
+	localGroup:insert(myDescr)
 	
 	--data driven indicator of question type
 	if params.questionType == 3 then

@@ -48,17 +48,17 @@ end
 local sql = "SELECT * FROM type_draggable WHERE question_id = "..question_ID
 print (sql)
 local imageTable = {}
-local skullTable = {}
+local dragTable = {}
 local stem
 for row in database:nrows(sql) do	
 	imageTable[1] = row.item_1
 	imageTable[2] = row.item_2
 	imageTable[3] = row.item_3
 	imageTable[4] = row.item_4
-	skullTable[3] = row.item_3_match
-	skullTable[1] = row.item_1_match
-	skullTable[4] = row.item_4_match
-	skullTable[2] = row.item_2_match
+	dragTable[3] = row.item_3_match
+	dragTable[1] = row.item_1_match
+	dragTable[4] = row.item_4_match
+	dragTable[2] = row.item_2_match
 	stem = row.stem
 
 end
@@ -67,7 +67,7 @@ xValue = _W/3.8
 yValue = _H/6.2
 
 print("Beginning Y value: "..yValue)
-
+--[[
 for i = 1,4 do
 
 -- Create local file for saving data
@@ -83,7 +83,7 @@ http.request{
 print("got here")
  
 end
-
+]]--
 dropTainer = {}
 for i = 1,4 do
 	-- Create four locations to drop photos
@@ -197,11 +197,11 @@ end
 for i = 1,4 do
 
 -- Create local file for saving data
-local path = system.pathForFile( skullTable[i], system.DocumentsDirectory )
+local path = system.pathForFile( dragTable[i], system.DocumentsDirectory )
 myFile = io.open( path, "w+b" ) 
 	-- Request remote file and save data to local file
 http.request{
-    url = "http://christijandraper.com/coronaImages/"..skullTable[i] ,
+    url = "http://christijandraper.com/coronaImages/"..dragTable[i] ,
     sink = ltn12.sink.file(myFile),
 }
  
@@ -218,7 +218,7 @@ for i = 1,4 do
 
 -- Create four droppable photos
 	
-dragImage = display.newImageRect(skullTable[randomNumber],system.DocumentsDirectory,_W/2.8,_H/6)
+dragImage = display.newImageRect(dragTable[randomNumber],system.DocumentsDirectory,_W/2.8,_H/6)
 	dragImage.x = xValue
 	dragImage.y = yValue*.75
 	if (i == 1) or (i == 3) then
@@ -230,7 +230,7 @@ dragImage = display.newImageRect(skullTable[randomNumber],system.DocumentsDirect
 	end
 
 	dragImage.j = randomNumber
-	dragImage.ID = skullTable[randomNumber]
+	dragImage.ID = dragTable[randomNumber]
 	dragImage.l = "isDraggable"
 	dragImage:addEventListener( "touch", dragPix )
 	draggables:insert(dragImage)
