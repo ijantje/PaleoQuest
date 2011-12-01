@@ -267,38 +267,41 @@ end
 	end
 	print("Location X "..locationXDivisor)
 	print("Location Y "..locationYDivisor)
+
+	markerGroup = display.newGroup()
+	
 	local marker = display.newImageRect("images/avatar_"..avatarColor..".png", 64, 44)
 	marker:setReferencePoint(display.CenterReferencePoint)
 	marker.x = _W/8*locationXDivisor
 	marker.y = _H/16*locationYDivisor
 	
 	local myDescr = autoWrappedText(menuDescr, native.systemFont, 14, {0,0,0}, display.contentWidth/3);
-	myDescr:setReferencePoint(display.CenterReferencePoint)
+	myDescr:setReferencePoint(display.TopLeftReferencePoint)
 	
-	myDescr.y = marker.y + (myDescr.height)
+	myDescr.y = marker.y + 15
 	local wordBalloon
 	if (locationXDivisor > 4) then
-		myDescr.x = marker.x - (myDescr.width/2)
-		wordBalloon = display.newRoundedRect(marker.x-myDescr.width-10,marker.y+15,myDescr.width*1.2,myDescr.height*1.4,4)
+		myDescr.x = marker.x - (myDescr.width)
+		wordBalloon = display.newRoundedRect(marker.x-myDescr.width-10,marker.y+15,myDescr.width*1.2,myDescr.height*1.1,4)
 	else 
 		myDescr.x = marker.x + (myDescr.width/2+10)
-		wordBalloon = display.newRoundedRect(marker.x,marker.y+15,myDescr.width*1.2,myDescr.height*1.2,4)
+		wordBalloon = display.newRoundedRect(marker.x,marker.y+15,myDescr.width*1.2,myDescr.height*1.1,4)
 	end
 	
 	
-	localGroup:insert(wordBalloon)
-	localGroup:insert(myDescr)
-	
+	markerGroup:insert(wordBalloon)
+	markerGroup:insert(myDescr)
+	markerGroup:insert(marker)
 	--data driven indicator of question type
 	if params.questionType == 3 then
-		marker.scene = "draggable"
+		markerGroup.scene = "draggable"
 	elseif params.questionType == 2 then
-		marker.scene = "multichoice"
+		markerGroup.scene = "multichoice"
 	elseif params.questionType == 1 then
-		marker.scene = "FIB"
+		markerGroup.scene = "FIB"
 	end
-	localGroup:insert(marker)
-	marker:addEventListener("touch", changeScene)
+	localGroup:insert(markerGroup)
+	markerGroup:addEventListener("touch", changeScene)
 	
 	return localGroup
 end
