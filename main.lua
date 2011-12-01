@@ -2,7 +2,7 @@
 _W = display.contentWidth
 _H = display.contentHeight
 
-display.setStatusBar( display.HiddenStatusBar )
+--display.setStatusBar( display.HiddenStatusBar )
 
 --====================================================================--
 -- DIRECTOR CLASS SAMPLE
