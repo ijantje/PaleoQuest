@@ -4,7 +4,7 @@ module(..., package.seeall)
 local director = require("director");
 
 --Hide status bar
-display.setStatusBar( display.HiddenStatusBar )
+--display.setStatusBar( display.HiddenStatusBar )
 
 --require ui for button over
 local ui = require("ui")
