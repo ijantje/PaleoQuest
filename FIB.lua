@@ -6,6 +6,11 @@ module(..., package.seeall)
 _H = display.contentHeight
 _W = display.contentWidth
 
+if type(params) == "table" then
+	print("It is a table.")
+	qID = params.questionID
+end
+	
 require "ui"
 
 --change scene function for director
@@ -15,6 +20,10 @@ function changeScene(event)
 			director:changeScene(event.target.scene,"fade")
 		end
 	end
+
+-- Parameters
+local qID
+
 
 --new group function for director
 function new()
@@ -46,7 +55,6 @@ local successGroup = display.newGroup()
 	]]
 
 local questionDescription
-local qID = 4
 local correct
 --local choices
 local answer1 -- forward reference (needed for Lua closure)
@@ -75,8 +83,7 @@ db:exec(sqlQuery)
 for row in db:nrows(sqlQuery) do 
 	questionDescription = row.stem
  	correct = row.answer
- 	--choices = {row.answer, row.distractor1, row.distractor2, row.distractor3}
- end
+end
  
  print(questionDescription)
 
