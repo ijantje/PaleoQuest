@@ -60,6 +60,7 @@ for k,v in ipairs(unavailableQuestions) do
 	sql = sql..unavailableQuestions[i]..","
 	i=i+1
 end
+local numberCompleted = i-1
 sql = string.sub(sql,1,-2)
 sql = sql..")"
 print (sql.." Minus the last comma")
@@ -72,6 +73,7 @@ for row in database:nrows(sql) do
 	i = i+1
 end
 
+local questionsRemaining = i - 1
 --get question information
 -- Find out which questions remain to be completed from the quest
 
@@ -95,8 +97,12 @@ end
 	
 
 	local click = audio.loadSound("click.wav")
-	
-	local menuDescr = "Well Done! Now meet me here."
+	local menuDescr
+	if numberCompleted == 0 then
+	 menuDescr = "Hello! Meet me here to see your first clue."
+	else
+	 menuDescr = "Well Done! Now meet me here."
+	end
 	local menuInstr = " "
 	
 	local bg = display.newImageRect("images/map.png", 320, 372)
@@ -284,10 +290,9 @@ end
 		myDescr.x = marker.x - (myDescr.width)
 		wordBalloon = display.newRoundedRect(marker.x-myDescr.width-10,marker.y+15,myDescr.width*1.2,myDescr.height*1.1,4)
 	else 
-		myDescr.x = marker.x + (myDescr.width/2+10)
+		myDescr.x = marker.x + 10
 		wordBalloon = display.newRoundedRect(marker.x,marker.y+15,myDescr.width*1.2,myDescr.height*1.1,4)
 	end
-	
 	
 	markerGroup:insert(wordBalloon)
 	markerGroup:insert(myDescr)

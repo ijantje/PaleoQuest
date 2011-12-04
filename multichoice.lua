@@ -21,7 +21,12 @@ print(qID)
 
 localGroup = display.newGroup()
 
-
+function changeScene(event)
+		if(event.phase == "ended") then
+			audio.play(click)
+			director:changeScene(event.target.scene,"fade")
+		end
+	end
 --import the ui file to create buttons
 local ui = require("ui")
 
@@ -141,20 +146,9 @@ local btnEventHandler = function (event)
 					local sql = "INSERT INTO questions_completed (progress_id, question_completed) VALUES (".._G.prog_id..","..qID..")"
 					database2:exec(sql)
 					print (sql)
-
-				local successMessage = display.newRect(0,0,176,33)
-				successMessage.scene = "bag"
-				local messageLabel = display.newText("Return to Hunt ...", successMessage.width/4,0,"Helvetica",13)
-				messageLabel:setTextColor(0,0,0)
-
-				successGroup:insert(successMessage)
-				successGroup:insert(messageLabel)
-				successGroup:setReferencePoint(display.CenterReferencePoint)
-				successGroup.x = _W/2
-				successGroup.y = _H/3*2
+				
 				successGroup.alpha = 1
-				localGroup:insert(successGroup)
-				successMessage:addEventListener("touch",changeScene)
+				
 				database2:close()
 	end
 
@@ -197,6 +191,20 @@ end
 
 	local myChoices = makeBtns(choices,"images/btn_choice.png","vertical",_W/2,250)
 	localGroup:insert(myChoices)
+	
+			local successMessage = display.newRect(0,0,176,33)
+			successMessage.scene = "bag"
+				local messageLabel = display.newText("Return to Hunt ...", successMessage.width/4,0,"Helvetica",13)
+				messageLabel:setTextColor(0,0,0)
+				successGroup:insert(successMessage)
+				successGroup:insert(messageLabel)
+				successGroup:setReferencePoint(display.CenterReferencePoint)
 
+				successGroup.x = _W/2
+				successGroup.y = _H/3*1.2
+
+				successMessage:addEventListener("touch",changeScene)
+
+	localGroup:insert(successGroup)
 	return localGroup
 end

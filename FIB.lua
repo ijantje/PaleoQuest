@@ -6,10 +6,7 @@ module(..., package.seeall)
 _H = display.contentHeight
 _W = display.contentWidth
 
-if type(params) == "table" then
-	print("It is a table.")
-	qID = params.questionID
-end
+
 	
 require "ui"
 
@@ -21,38 +18,19 @@ function changeScene(event)
 		end
 	end
 
--- Parameters
-local qID
+
 
 
 --new group function for director
-function new()
+function new(params)
+	-- Parameters
+local qID
+if type(params) == "table" then
+	print("It is a table.")
+	qID = params.questionID
+end
 	localGroup = display.newGroup()
 
---[[
-
-
-	local titleText = display.newText("You are now at the next scene", 0, 0, native.systemFontBold, 14)
-	titleText:setTextColor(100, 200, 200)
-	titleText.x = display.contentWidth/2
-	titleText.y = display.contentHeight/2
-	localGroup:insert(titleText)
-	
-	local successMessage = display.newRect(0,0,176,33)
-				successMessage.scene = "map"
-				local messageLabel = display.newText("Return to Hunt ...", successMessage.width/4,0,"Helvetica",13)
-				messageLabel:setTextColor(0,0,0)
-local successGroup = display.newGroup()
-				successGroup:insert(successMessage)
-				successGroup:insert(messageLabel)
-				successGroup:setReferencePoint(display.CenterReferencePoint)
-				successGroup.x = _W/2
-				successGroup.y = _H/3*2
-				successGroup.alpha = 1
-				localGroup:insert(successGroup)
-				successMessage:addEventListener("touch",changeScene)
-
-	]]
 
 local questionDescription
 local correct
@@ -199,22 +177,41 @@ end
 ----------------------------------------
 
 local answerVerify = function (event)
+	if event.phase == "ended" then
 	answer1.inputType = "default"
-	--answerText = "barrel"
-	answerText = answer1.text;
+	-- ****** defaulting to correct answer for testing 
+	answerText = correct
+	--answerText = answer1.text;
 	answerText = (string.lower(answerText))
 	--print (string.upper(answer1))
 	--print(answer1)
 	if(correct == answerText) then
 		audio.play(correctSound)
-		--winLose("right");
-		local params = {correctAnswered = qID}
-		print(params)
-		--director:changeScene(params, "bag")
+		-- Mark progress for this question in database
+				--set the database path
+					local user_dbpath = system.pathForFile("tp_user.sqlite")
+
+				--open dbs
+					local database2 = sqlite3.open(user_dbpath)
+
+				--handle the applicationExit to close the db
+					local function onSystemEvent(event)
+						if(event.type == "applicationExit") then
+							database2:close()
+						end
+					end
+
+-- Submit progress to database
+					local sql = "INSERT INTO questions_completed (progress_id, question_completed) VALUES (".._G.prog_id..","..qID..")"
+					database2:exec(sql)
+					print (sql)
+
+		director:changeScene("bag")
 	end
 	if(correct ~= answerText) then
 		audio.play(errorSound)
 		--winLose("wrong")
+	end
 	end
 end
 
@@ -228,7 +225,6 @@ local answerBtn = ui.newButton{
 	over = "btn_answer1.png",
 	x = _W/2,
 	y = _H - 75,
-	--onPress=answerVerify
 	}
 
 
