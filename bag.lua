@@ -36,7 +36,7 @@ end
 print("there are "..questInfo.totalNum.." questions in this quest")
 
 --also need to know the appropriate card for this db.  Get this once you update the db
-questInfo.dinoCard = "triceratops.jpg"
+questInfo.dinoCard = "cretaceous/triceratops.jpg"
 questDB:close()
 
 --now find out how many questions have been answered
