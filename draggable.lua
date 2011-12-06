@@ -67,7 +67,7 @@ xValue = _W/3.8
 yValue = _H/6.2
 
 print("Beginning Y value: "..yValue)
---[[
+
 for i = 1,4 do
 
 -- Create local file for saving data
@@ -83,7 +83,7 @@ http.request{
 print("got here")
  
 end
-]]--
+
 dropTainer = {}
 for i = 1,4 do
 	-- Create four locations to drop photos
