@@ -166,6 +166,7 @@ function dragPix( event )
 					local sql = "INSERT INTO questions_completed (progress_id, question_completed) VALUES (".._G.prog_id..","..question_ID..")"
 					database2:exec(sql)
 					print (sql)
+					
 
 				local successMessage = display.newRect(0,0,176,33)
 				successMessage.scene = "bag"
@@ -180,6 +181,14 @@ function dragPix( event )
 				successGroup.alpha = 1
 				localGroup:insert(successGroup)
 				successMessage:addEventListener("touch",changeScene)
+
+
+-- Probably should have a timer here to briefly delay the transition
+
+-- Move to the success screen
+-- Wasn't working so I have disabled it and gone back
+--director:changeScene("success")
+
 			end
 
 		end

@@ -2,6 +2,10 @@ module(..., package.seeall)
 
 print("This in _H in picker: ".._H)
 local tableView = require("tableView")
+
+--Hide status bar
+display.setStatusBar( display.HiddenStatusBar )
+
 local ui = require("ui")
 
 --include sqlite db
