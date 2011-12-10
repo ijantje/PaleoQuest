@@ -47,9 +47,19 @@ local dText7
 local avatar_text
 local avatarID_desc = "Rex"
 local a_blue
+local a_blue_select
 local a_green
+local a_green_select
 local a_orange
+local a_orange_select
 local a_red
+local a_red_select
+
+local rexHello = audio.loadSound("rexHello.wav")
+local spikeHello = audio.loadSound("spikeHello.wav")
+local amberHello = audio.loadSound("amberHello.wav")
+local rubyHello = audio.loadSound("rubyHello.wav")
+
 --change
 
 questID = 0
@@ -64,15 +74,16 @@ local bottomBoundary = display.screenOriginY + 0
 
 --set the database path 
 local path = system.pathForFile("tp_quests.sqlite",system.ResourceDirectory)
-
+local userPath = system.pathForFile("tp_user.sqlite",system.ResourceDirectory)
 --open dbs
 db = sqlite3.open(path)
-
+user_db = sqlite3.open(userPath)
 
 --handle the applicationExit even to close the db
 local function onSystemEvent (event)
 	if (event.type == "applicationExit") then
 		db:close()
+		user_db:close()
 	end
 end
 
@@ -92,6 +103,26 @@ for row in db:nrows(sqlQuery) do
 	data[q].qTime = row.time
 	data[q].qTopic = row.topic
 	data[q].qPoints = row.points
+	print("this is quest "..row.questID)
+	print("you are user ".._G.userID)
+	--query the questions to find out how many there are from this quest
+	local qSQL = "SELECT COUNT(question_id) as total FROM quest_questions WHERE quest_id="..row.questID
+	for row in db:nrows(qSQL) do 
+		total = row.total
+	end
+	--now query the user database to see what ; need qID and userID
+	local prog_query = "SELECT prog_id FROM `progress` WHERE user_id =".._G.userID.." AND quest_id = "..row.questID
+	for row in user_db:nrows(prog_query) do 
+		progress = row.prog_id
+	end
+	--now count the total answered using the prog_id
+	prog_query = "SELECT count(question_completed) as completed FROM questions_completed WHERE progress_id = "..progress
+	for row in user_db:nrows(prog_query) do 
+		completed = row.completed
+	end
+	print("you  have completed "..completed.." of  "..total.." questions")
+	data[q].qTotal = total
+	data[q].uCompleted = completed	
 	q = q + 1
  end
 
@@ -241,12 +272,61 @@ function startBtnRelease(event)
 	director:changeScene("map") --open map.lua file
 end
 
+function changeAvatar()
+	a_blue.alpha = 1
+	a_blue.isVisible = true
+	a_green.alpha = 1
+	a_green.isVisible = true
+	a_orange.alpha = 1
+	a_orange.isVisible = true
+	a_red.alpha = 1
+	a_red.isVisible = true
+	a_blue_select.alpha = 0
+	a_blue_select.isVisible = false
+	a_green_select.alpha = 0
+	a_green_select.isVisible = false
+	a_orange_select.alpha = 0
+	a_orange_select.isVisible = false
+	a_red_select.alpha = 0
+	a_red_select.isVisible = false
+	
+	if(avatarID == 1) then
+		a_blue.alpha = 0
+		a_blue.isVisible = false
+		a_blue_select.alpha = 1
+		a_blue_select.isVisible = true
+	end
+	
+	if(avatarID == 2) then
+		a_green.alpha = 0
+		a_green.isVisible = false
+		a_green_select.alpha = 1
+		a_green_select.isVisible = true
+	end
+	
+	if(avatarID == 3) then
+		a_orange.alpha = 0
+		a_orange.isVisible = false
+		a_orange_select.alpha = 1
+		a_orange_select.isVisible = true
+	end
+	
+	if(avatarID == 4) then
+		a_red.alpha = 0
+		a_red.isVisible = false
+		a_red_select.alpha = 1
+		a_red_select.isVisible = true
+	end
+end
+
 function avatarChooserBlue(event)
 	print("Click")
 	avatarID = 1
 	avatarID_desc = "Rex"
 	avatar_text:setTextColor(80,115,165)
 	avatar_text.text = "Select a guide: You guide is named "..avatarID_desc
+	audio.play(rexHello)
+	changeAvatar()
 end
 function avatarChooserGreen(event)
 	print("Click")
@@ -254,6 +334,8 @@ function avatarChooserGreen(event)
 	avatarID_desc = "Spike"
 	avatar_text:setTextColor(90,145,70)
 	avatar_text.text = "Select a guide: You guide is named "..avatarID_desc
+	audio.play(spikeHello)
+	changeAvatar()
 end
 function avatarChooserOrange(event)
 	print("Click")
@@ -261,6 +343,8 @@ function avatarChooserOrange(event)
 	avatarID_desc = "Amber"
 	avatar_text:setTextColor(220,140,50)
 	avatar_text.text = "Select a guide: You guide is named "..avatarID_desc
+	audio.play(amberHello)
+	changeAvatar()
 end
 function avatarChooserRed(event)
 	print("Click")
@@ -268,7 +352,11 @@ function avatarChooserRed(event)
 	avatarID_desc = "Ruby"
 	avatar_text:setTextColor(180,55,55)
 	avatar_text.text = "Select a guide: You guide is named "..avatarID_desc
+	audio.play(rubyHello)
+	changeAvatar()
 end
+
+
 
 function new()
 
@@ -297,6 +385,34 @@ function new()
 		
 		avatar_text = display.newText("Text", 0, 0, native.systemFontBold, 12 )
 			detailScreen:insert(avatar_text)
+			
+		a_blue_select = display.newImageRect("images/avatar_blue_select.png", 83, 67)
+			a_blue_select:setReferencePoint(display.CenterReferencePoint)
+			a_blue_select.x = a_blue_select.width/2 + 12
+			a_blue_select.y = display.contentHeight - a_blue_select.height/2 - 12
+			a_blue_select:addEventListener("tap", avatarChooserBlue)
+			detailScreen:insert(a_blue_select)
+		
+		a_green_select = display.newImageRect("images/avatar_green_select.png", 79, 47)
+			a_green_select:setReferencePoint(display.CenterReferencePoint)
+			a_green_select.x = a_blue_select.width + a_green_select.width/2 + 12
+			a_green_select.y = display.contentHeight - a_green_select.height/2 - 12
+			a_green_select:addEventListener("tap", avatarChooserGreen)
+			detailScreen:insert(a_green_select)
+		
+		a_orange_select = display.newImageRect("images/avatar_orange_select.png", 68, 50)
+			a_orange_select:setReferencePoint(display.CenterReferencePoint)
+			a_orange_select.x = a_blue_select.width + a_green_select.width + a_orange_select.width/2 + 22
+			a_orange_select.y = display.contentHeight - a_orange_select.height/2 - 12
+			a_orange_select:addEventListener("tap", avatarChooserOrange)
+			detailScreen:insert(a_orange_select)
+			
+		a_red_select = display.newImageRect("images/avatar_red_select.png", 64, 58)
+			a_red_select:setReferencePoint(display.CenterReferencePoint)
+			a_red_select.x = a_blue_select.width + a_green_select.width + a_orange_select.width + a_red_select.width/2 + 20
+			a_red_select.y = display.contentHeight - a_red_select.height/2 - 12
+			a_red_select:addEventListener("tap", avatarChooserRed)
+			detailScreen:insert(a_red_select)
 		
 		a_blue = display.newImageRect("images/avatar_blue.png", 83, 67)
 			a_blue:setReferencePoint(display.CenterReferencePoint)
@@ -325,9 +441,8 @@ function new()
 			a_red.y = display.contentHeight - a_red.height/2 - 12
 			a_red:addEventListener("tap", avatarChooserRed)
 			detailScreen:insert(a_red)
-	
 		
-		
+	changeAvatar()
 
 	localGroup:insert(detailScreen)
 	
@@ -356,7 +471,7 @@ function new()
 		title.y = 15
 		
 		
-		points =  display.newText( "Points: " ..row.qPoints, 0, 0, native.systemFontBold, 10 )
+		points =  display.newText( "Completed: " ..row.uCompleted.."/"..row.qTotal, 0, 0, native.systemFontBold, 10 )
 		points:setTextColor(100, 30, 30)
 		g:insert(points)
 		points.x = display.contentWidth - points.width/2

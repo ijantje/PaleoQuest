@@ -8,8 +8,8 @@ local questionDescription
 local qID
 local correct
 local choices
-local successGroup = display.newGroup()
-successGroup.alpha = 0
+local successMessage
+
 
 new = function (params)
 
@@ -23,8 +23,8 @@ localGroup = display.newGroup()
 
 function changeScene(event)
 		if(event.phase == "ended") then
-			audio.play(click)
-			director:changeScene(event.target.scene,"fade")
+			--audio.play(click)
+			director:changeScene("success","fade")
 		end
 	end
 --import the ui file to create buttons
@@ -40,7 +40,7 @@ local path = system.pathForFile("tp_quests.sqlite")
 db = sqlite3.open(path)
 
 
---handle the applicationExit even to close the db
+--handle the applicationExit event to close the db
 local function onSystemEvent (event)
 	if (event.type == "applicationExit") then
 		db:close()
@@ -48,13 +48,26 @@ local function onSystemEvent (event)
 end
 
 local sqlQuery = "SELECT * FROM type_multiple_choice WHERE question_id = "..qID
+local rndize = math.random(1,4)
+print(rndize)
 
 db:exec(sqlQuery)
 
 for row in db:nrows(sqlQuery) do 
 	questionDescription = row.stem
  	correct = row.correct_response
- 	choices = {row.correct_response, row.distractor_1, row.distractor_2, row.distractor_3}
+ 	if (rndize==1) then
+ 		choices = {row.correct_response, row.distractor_1, row.distractor_2, row.distractor_3}
+	end
+	if (rndize==2) then
+ 		choices = {row.distractor_1, row.correct_response, row.distractor_2, row.distractor_3}
+	end
+	if (rndize==3) then
+ 		choices = {row.distractor_1, row.distractor_2, row.correct_response,  row.distractor_3}
+	end
+	if (rndize==4) then
+ 		choices = { row.distractor_1, row.distractor_2, row.distractor_3, row.correct_response}
+	end
  end
  
  print(questionDescription)
@@ -123,12 +136,8 @@ local function autoWrappedText(text, font, size, color, width)
   return result
 end
 
-
-local btnEventHandler = function (event)
-	print(event.target.id)
-	if(correct == event.target.id) then
-		audio.play(correct_wav)
-		-- Mark progress for this question in database
+local function finishCorrect()
+-- Mark progress for this question in database
 				--set the database path
 					local user_dbpath = system.pathForFile("tp_user.sqlite")
 
@@ -147,9 +156,18 @@ local btnEventHandler = function (event)
 					database2:exec(sql)
 					print (sql)
 				
-				successGroup.alpha = 1
+			successMessage.alpha = 1
+			successMessage.isVisible = true
 				
 				database2:close()
+				director:changeScene("success")
+end
+
+local btnEventHandler = function (event)
+	print(event.target.id)
+	if(correct == event.target.id) then
+		audio.play(correct_wav)
+		timer.performWithDelay(3000, finishCorrect)
 	end
 
 	if(correct ~= event.target.id) then
@@ -189,22 +207,17 @@ end
 	localGroup:insert(myDescr)
 
 
-	local myChoices = makeBtns(choices,"images/btn_choice.png","vertical",_W/2,250)
+	local myChoices = makeBtns(choices,"images/btn_choice.png","vertical",_W/2,200)
 	localGroup:insert(myChoices)
 	
-			local successMessage = display.newRect(0,0,176,33)
-			successMessage.scene = "bag"
-				local messageLabel = display.newText("Return to Hunt ...", successMessage.width/4,0,"Helvetica",13)
-				messageLabel:setTextColor(0,0,0)
-				successGroup:insert(successMessage)
-				successGroup:insert(messageLabel)
-				successGroup:setReferencePoint(display.CenterReferencePoint)
+	successMessage = display.newImageRect("images/btn_return.png",216, 72)
+	successMessage:setReferencePoint(display.CenterReferencePoint)
+	successMessage.x = _W/2
+	successMessage.y = 75
+	successMessage:addEventListener("touch",changeScene)
+	successMessage.alpha = 0
+	successMessage.isVisible = false
 
-				successGroup.x = _W/2
-				successGroup.y = _H/3*1.2
-
-				successMessage:addEventListener("touch",changeScene)
-
-	localGroup:insert(successGroup)
+	localGroup:insert(successMessage)
 	return localGroup
 end

@@ -7,21 +7,20 @@ display.setStatusBar( display.HiddenStatusBar )
 _H = display.contentHeight;
 _W = display.contentWidth;
 
-print("Made it to line 10")
 local director = require('director')
 
 --get the info for sprites from spriteloq
 loq_DeclareGlobals = true
 require('loq_util')
 local sf = require('loq_sprite').newFactory('sheet')
-print("Made it to line 17")
+
 local function moveOn() 
 	local params = {success=1}
 	print("success: "..params.success)
 	director:changeScene(params,"bag")
 end
 timer.performWithDelay(2000, moveOn)
-print("Made it to line 24")
+
 function new(params)
 
 	localGroup = display.newGroup()
@@ -37,11 +36,16 @@ function new(params)
 	else 
 		id = "Ruby"
 	end
-	print("Made it to line 40")
+	
+	local mySound = audio.loadSound(string.lower(id).."Yay.wav")
+	print(string.lower(id).."Yay.wav")
+	audio.play(mySound)
+	
+	
 	local dino = sf:newSpriteGroup(id)
 	dino:translate(_W/2,_H/2+80)
 	dino.xScale = .8; dino.yScale = .8
-	--dino:play()
+	dino:play()
 	
 	localGroup:insert(dino)
 	
