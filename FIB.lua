@@ -1,42 +1,46 @@
 --FIB.lua for Fill-In the Blank Questions
-
 module(..., package.seeall)
 
 --init globals
 _H = display.contentHeight
 _W = display.contentWidth
 
+local director=require("director")
 
-	
-require "ui"
-
---change scene function for director
-function changeScene(event)
-		if(event.phase == "ended") then
-			audio.play(click)
-			director:changeScene(event.target.scene,"fade")
-		end
-	end
-
-
-
-
---new group function for director
-function new(params)
-	-- Parameters
+local questionDescription
 local qID
+local correct
+local answer1 -- forward reference (needed for Lua closure)
+local answerText
+
+--local successGroup = display.newGroup()
+--successGroup.alph = 0
+
+new = function (params)
+
 if type(params) == "table" then
-	print("It is a table.")
 	qID = params.questionID
 end
+
+print(qID)
+
+--new group function for director
+--function new()
 	localGroup = display.newGroup()
 
 
-local questionDescription
-local correct
---local choices
-local answer1 -- forward reference (needed for Lua closure)
-local answerText
+--import the ui file to create buttons
+local ui = require("ui")
+
+--change scene function for director
+function changeScene(event)
+	if(event.phase == "ended") then
+		audio.play(click)
+		director:changeScene(event.target.scene,"fade")
+	end
+end
+
+
 
 --include sqlite db
 require "sqlite3"
@@ -61,31 +65,40 @@ db:exec(sqlQuery)
 for row in db:nrows(sqlQuery) do 
 	questionDescription = row.stem
  	correct = row.answer
-end
+ 	--choices = {row.answer, row.distractor1, row.distractor2, row.distractor3}
+ end
  
  print(questionDescription)
 
 local correctSound = audio.loadSound("correct.wav")
 local errorSound = audio.loadSound("incorrect.wav")
 
+local answer1 = ""
+local wrongAnswer = ""
+
 	-- TextField Listener
 local function fieldHandler( getObj )
         
         return function( event )
  
-                print( "TextField Object is: " .. tostring( getObj() ) )
+                --print( "TextField Object is: " .. tostring( getObj() ) )
                 
                 if ( "began" == event.phase ) then
                         -- This is the "keyboard has appeared" event
+                        print("began")
+                        if(wrongAnswer.alpha == 1) then
+                        	print("get rid of the sorry message")
+                        	wrongAnswer.alpha = 0
+                        end
                 
                 elseif ( "ended" == event.phase ) then
                         -- This event is called when the user stops editing a field:
                         -- for example, when they touch a different field or keyboard focus goes away
                 
-                        print( "Text entered = " .. tostring( getObj().text ) )         -- display the text entered
+                        --print( "Text entered = " .. tostring( getObj().text ) )         -- display the text entered
 						answerText = tostring(getObj().text)
 						--answerVerify()
-                        
+
                 elseif ( "submitted" == event.phase ) then
                         -- This event occurs when the user presses the "return" key
                         -- (if available) on the onscreen keyboard
@@ -93,6 +106,7 @@ local function fieldHandler( getObj )
                         -- Hide keyboard
                         native.setKeyboardFocus( nil )
 						--answerVerify()
+						
                 end
                 
         end     -- "return function()"
@@ -177,44 +191,84 @@ end
 ----------------------------------------
 
 local answerVerify = function (event)
-	if event.phase == "ended" then
 	answer1.inputType = "default"
-	-- ****** defaulting to correct answer for testing 
-	answerText = correct
-	--answerText = answer1.text;
+	--answerText = "barrel"
+	answerText = answer1.text;
 	answerText = (string.lower(answerText))
 	--print (string.upper(answer1))
 	--print(answer1)
+	
 	if(correct == answerText) then
 		audio.play(correctSound)
+		director:changeScene("success")
+	
+		
 		-- Mark progress for this question in database
-				--set the database path
-					local user_dbpath = system.pathForFile("tp_user.sqlite")
+		--set the database path
+			local user_dbpath = system.pathForFile("tp_user.sqlite")
 
-				--open dbs
-					local database2 = sqlite3.open(user_dbpath)
+		--open dbs
+			local database2 = sqlite3.open(user_dbpath)
 
-				--handle the applicationExit to close the db
-					local function onSystemEvent(event)
-						if(event.type == "applicationExit") then
-							database2:close()
-						end
-					end
+		--handle the applicationExit to close the db
+			local function onSystemEvent(event)
+				if(event.type == "applicationExit") then
+				database2:close()
+			end
+	end
 
 -- Submit progress to database
-					local sql = "INSERT INTO questions_completed (progress_id, question_completed) VALUES (".._G.prog_id..","..qID..")"
-					database2:exec(sql)
-					print (sql)
+			local sql = "INSERT INTO questions_completed (progress_id, question_completed) VALUES (".._G.prog_id..","..qID..")"
+				database2:exec(sql)
+			print (sql)
 
-		director:changeScene("bag")
+--	local titleText = display.newText("You are now at the next scene", 0, 0, native.systemFontBold, 14)
+--	titleText:setTextColor(100, 200, 200)
+--	titleText.x = display.contentWidth/2
+--	titleText.y = display.contentHeight/2
+--	localGroup:insert(titleText)
+
+
+--[[	local successMessage = display.newRect(0,0,176,33)
+				successMessage.scene = "bag"
+				local messageLabel = display.newText("Return to Hunt ...", successMessage.width/4,0,"Helvetica",13)
+				messageLabel:setTextColor(0,0,0)
+--local successGroup = display.newGroup()
+				successGroup:insert(successMessage)
+				successGroup:insert(messageLabel)
+				successGroup:setReferencePoint(display.CenterReferencePoint)
+				successGroup.x = _W/2
+				successGroup.y = _H/3*2
+				successGroup.alpha = 1
+				localGroup:insert(successGroup)
+				successMessage:addEventListener("touch",changeScene)
+				database2:close()]]
 	end
+
+--[[
+		local params = {correctAnswered = qID}
+		print(params)
+		--director:changeScene(params, "bag")
+	end]]--
+	
 	if(correct ~= answerText) then
 		audio.play(errorSound)
+		print("that is the wrong answer")
+		if(wrongAnswer.alpha == 0) then
+			wrongAnswer.alpha = 1
+		else 
+			wrongAnswer = display.newText("Sorry! Try Again", 0, 0,"Helvetica",24)
+			wrongAnswer:setReferencePoint(display.CenterReferencePoint)
+			wrongAnswer.x = _H/6 * 2
+			wrongAnswer.y = _W/6 * 4
+		end
+
+		--display.getCurrentStage():setFocus(answer1)
+
 		--winLose("wrong")
 	end
-	end
 end
-
+		
 
 ----------------------------------------
 -- loads button on display for answer
@@ -225,6 +279,7 @@ local answerBtn = ui.newButton{
 	over = "btn_answer1.png",
 	x = _W/2,
 	y = _H - 75,
+	--onPress=answerVerify
 	}
 
 
@@ -239,7 +294,7 @@ askQuestion.y = 75
 -- This code runs the answer verify function when the enter button is tapped
 ----------------------------------------
 
-answerBtn:addEventListener( "touch", answerVerify )
+answerBtn:addEventListener( "tap", answerVerify )
 
 return localGroup
 end
