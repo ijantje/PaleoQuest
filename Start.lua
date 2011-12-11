@@ -8,7 +8,7 @@ function new()
 	local click = audio.loadSound("click.wav")
 	
 	local menuDescr = "Welcome to Thanksgiving Point!"
-	local menuInstr = "This app will help you make the most of your visit to the Museum of Ancient Life.  There are several different expeditions that you can take to explore the time of the Dinosaurs and ancient creatures.  When you are ready to begin, touch the Start button to choose your expedition.  Have fun!"
+	local menuInstr = "This app will help you make the most of your visit to the Museum of Ancient Life.  There are several different expeditions that help you explore the time of the Dinosaurs and ancient creatures.  When you are ready to begin, touch the Start button to choose your expedition.  Have fun!"
 	
 	local topbar = display.newImageRect("images/topbar320x54.png", 320, 54)
 	topbar:setReferencePoint(display.CenterReferencePoint)

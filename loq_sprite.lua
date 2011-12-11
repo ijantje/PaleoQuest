@@ -623,7 +623,7 @@ function SpriteGroup:fillColor(...)
         for i, v in ipairs(arg) do
             table.insert(self.m_fillColor, v)
         end
-        self.curSprite:setFillColor(unpack(self.m_fillColor))
+        --self.curSprite:setFillColor(unpack(self.m_fillColor))
     end
     return self.m_fillColor
 end
@@ -708,7 +708,7 @@ function SpriteGroup:prepare(_spriteName)
         self.curSprite.timeScale = self.m_timeScale
         self.curSprite.xScale = sInfo.xScale
         self.curSprite.yScale = sInfo.yScale
-        self.curSprite:setFillColor(unpack(self.m_fillColor))
+        --self.curSprite:setFillColor(unpack(self.m_fillColor))
     else
         s = self.curSprite
     end

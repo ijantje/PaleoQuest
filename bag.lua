@@ -8,6 +8,10 @@ display.setStatusBar( display.HiddenStatusBar )
 ]]
 
 module(..., package.seeall)
+--init globals
+_H = display.contentHeight;
+_W = display.contentWidth;
+local director = require("director")
 
 function changeScene(event)
 		if(event.phase == "ended") then
@@ -36,7 +40,13 @@ end
 print("there are "..questInfo.totalNum.." questions in this quest")
 
 --also need to know the appropriate card for this db.  Get this once you update the db
-questInfo.dinoCard = "cretaceous/triceratops.jpg"
+query = "SELECT topic, dino_card FROM `QuestInfo` WHERE questID = ".._G.questID
+for row in questDB:nrows(query) do 
+	questInfo.dino = row.dino_card
+	questInfo.era = row.topic
+end
+questInfo.dinoCard = questInfo.era.."/"..questInfo.dino..".jpg"
+print("Card is "..questInfo.dinoCard)
 questDB:close()
 
 --now find out how many questions have been answered
@@ -53,7 +63,7 @@ questDB:close()
 	for row in userDB:nrows(query) do
 		if row.complete > 0 then
 			questInfo.completed = row.complete
-		else questInfo.completed = 1
+		else questInfo.completed = 0
 		end
 	end
 	print ("User 1 has answered "..questInfo.completed.." of "..questInfo.totalNum.." questions in this quest")
@@ -65,25 +75,70 @@ userDB:close()
 --function to add a mask to a puzzle piece.  
 function createPuzzlePiece(puzzleImg,maskImg) 
 	--get puzzle image
-	local img = display.newImage(puzzleImg)
-	img:setReferencePoint(display.CenterReferencePoint)
-	img.width = display.contentWidth
-	img.height = display.contentHeight
-	--now create a mask
-	print("maskImg= "..maskImg)
-	local mask = graphics.newMask(maskImg)
-	--apply the mask to the image
-	print("we do make it past the mask")
-	img:setMask(mask)
-	return img
+	if (questInfo.completed ~= 0) then
+		local img = display.newImage(puzzleImg)
+		img:setReferencePoint(display.CenterReferencePoint)
+		img.width = display.contentWidth
+		img.height = display.contentHeight
+		--now create a mask
+		if (questInfo.completed ~= questInfo.totalNum ) then
+			print("maskImg= "..maskImg)
+			local mask = graphics.newMask(maskImg)
+			--apply the mask to the image
+			print("we do make it past the mask")
+			img:setMask(mask)
+		end
+		return img
+	end
 end
 
 function new()
 	localGroup = display.newGroup()
-	
+			
+		--create the puzzle image	
+		local picPath = "images/cards/"..questInfo.dinoCard
 	--check to see if they've answered all the questions or not --
 	if (questInfo.totalNum == questInfo.completed) then
 		--the user has answered all the questions, so don't apply a mask to the img.  There's also no need to show the back of the card
+		local img = createPuzzlePiece(picPath)
+		local msg = "You've earned the "..questInfo.dino.." card!"
+		--To Do: make sure to add the card to the user's deck in the datbase
+		function showMsg() 
+					local msgGrp = display.newGroup()
+					msgGrp:setReferencePoint(display.CenterReferencePoint)
+					local background = display.newRect(0,0,_W, 50) 
+					local msg = display.newText(msg,20,0,native.systemFont,14)
+					msg:setTextColor(0,0,0)
+					msgGrp:insert(background)
+					msgGrp:insert(msg)
+					msgGrp.y = _H/2;
+					--msgGrp.x = 20;
+					localGroup:insert(msgGrp)
+						local id = ""
+		end
+		function goHome()
+			director:changeScene("picker")
+		end
+		
+		--create a sound
+					local avatar = _G.avatarID
+					print("Your avatar is "..avatar)
+					if (avatar == 1) then
+						id = "Rex"
+					elseif (avatar == 2) then
+						id = "Spike"
+					elseif (avatar == 3) then
+						id = "Amber"
+					else 
+						id = "Ruby"
+					end
+					
+					local mySound = audio.loadSound(string.lower(id).."Congratulations.wav")
+					audio.play(mySound)
+
+		
+		timer.performWithDelay(500,showMsg)
+		timer.performWithDelay(4500,goHome)
 	else 
 		--show default img (back of the card)
 		local defaultCard = display.newImageRect("images/cards/defaultCard.jpg",320,440)
@@ -91,9 +146,6 @@ function new()
 		defaultCard.x = 0;
 		defaultCard.y =0;
 		localGroup:insert(defaultCard)
-		
-		--create the puzzle image	
-		local picPath = "images/cards/"..questInfo.dinoCard
 		
 		print("this is the pic path: "..picPath)
 		local puzzlePath = "images/puzzles/"..questInfo.totalNum.."/"..questInfo.completed..".jpg"

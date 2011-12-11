@@ -32,7 +32,7 @@ localGroup:insert(splash)
 
 --AUDIO TURNED OFF FOR NOW
 --play audio theme
---audio.play(theme)
+audio.play(theme)
 
 --local bg = display.newGroup();
 --bg:insert(screenBg);
@@ -65,11 +65,11 @@ splash:removeSelf()
 splash = nil
 
 --CHANGED TO PICKER TO SPEED DEVELOPMENT
-director:changeScene("picker")
+director:changeScene("Start")
 print("Splash screen terminated handed off to picker" .. _H .. _W)
 end
 
-timer.performWithDelay(1000, loadPicker)
+timer.performWithDelay(4000, loadPicker)
 
 return localGroup
 end
