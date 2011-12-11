@@ -67,31 +67,36 @@ print (sql.." Minus the last comma")
 
 i=1
 local questionTable = {}
+questionTable[1] = 0
 for row in database:nrows(sql) do	
 	questionTable[i] = row.question_id
-	print(questionTable[i])
+	print("Question table -- "..questionTable[i])
 	i = i+1
 end
 
 local questionsRemaining = i - 1
+print("It breaks here? " .. questionsRemaining .. " And more to boot")
 --get question information
 -- Find out which questions remain to be completed from the quest
 
+print("Why stop there?")
 
--- Choose which question to deliver
-
-
-
-local sql = "SELECT question_type,question_location_id FROM questions WHERE question_id = "..questionTable[1]
-print (sql)
-params ={
-	questionID = questionTable[1]
-	}
-for row in database:nrows(sql) do	
-	params.questionType = row.question_type
-	params.question_location = row.question_location_id
+-- Choose which question to deliver)
+local params = {}
+if questionsRemaining ~= 0 then
+	local sql = "SELECT question_type,question_location_id FROM questions WHERE question_id = "..questionTable[1]
+	print (sql)
+	params ={
+		questionID = questionTable[1]
+		}
+	for row in database:nrows(sql) do	
+		params.questionType = row.question_type
+		params.question_location = row.question_location_id
+	end
+else 
+	params.questionType = 0
+	params.question_location = 3
 end
-
 	
 -- create variable to select correct question to advance to on next screen
 	
@@ -100,6 +105,8 @@ end
 	local menuDescr
 	if numberCompleted == 0 then
 	 menuDescr = "Hello! Meet me here to see your first clue."
+	elseif questionsRemaining == 0 then
+	 menuDescr = "You did it! You can rest now."
 	else
 	 menuDescr = "Well Done! Now meet me here."
 	end
@@ -304,6 +311,8 @@ end
 		markerGroup.scene = "multichoice"
 	elseif params.questionType == 1 then
 		markerGroup.scene = "FIB"
+	elseif params.questionType == 0 then
+		markerGroup.scene = "picker"
 	end
 	localGroup:insert(markerGroup)
 	markerGroup:addEventListener("touch", changeScene)
